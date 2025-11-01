@@ -117,46 +117,41 @@
                                                     @endphp
 
                                                     @if($hasImages)
-                                                        <!-- Vista con imágenes tipo grid -->
-                                                        <div class="row g-3">
-                                                            @foreach($question->options->shuffle() as $option)
-                                                                <div class="col-md-6 col-lg-4">
-                                                                    <input type="radio"
-                                                                           class="btn-check"
+                                                        <!-- Vista con imágenes en línea horizontal -->
+                                                        @foreach($question->options->shuffle() as $option)
+                                                            <style>
+                                                                #option{{ $option->id }}:checked ~ .option-label-{{ $option->id }} {
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }} !important;
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }}11 !important;
+                                                                }
+                                                                .option-label-{{ $option->id }}:hover {
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }}08 !important;
+                                                                }
+                                                            </style>
+                                                            <div class="mb-3 option-label-{{ $option->id }}"
+                                                                 style="border: 2px solid #dee2e6; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: white;">
+                                                                <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
+                                                                    <input class="form-check-input shrink-0" type="radio"
                                                                            name="answers[{{ $question->id }}]"
                                                                            value="{{ $option->id }}"
                                                                            id="option{{ $option->id }}"
+                                                                           style="width: 24px; height: 24px; margin: 0;"
                                                                            required>
-                                                                    <label class="option-card w-100"
-                                                                           for="option{{ $option->id }}"
-                                                                           style="cursor: pointer; border: 3px solid #dee2e6; border-radius: 12px; padding: 0; overflow: hidden; transition: all 0.3s ease; display: block; background: white;">
-                                                                        @if($option->image)
-                                                                            <div style="aspect-ratio: 1/1; overflow: hidden; background: #f8f9fa;">
-                                                                                <img src="{{ asset('storage/' . $option->image) }}"
-                                                                                     alt="{{ $option->option_text }}"
-                                                                                     class="w-100 h-100"
-                                                                                     style="object-fit: cover;">
-                                                                            </div>
-                                                                        @endif
-                                                                        <div class="p-3 text-center" style="background: white;">
-                                                                            <strong class="d-block">{{ $option->option_text }}</strong>
+                                                                    @if($option->image)
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #f8f9fa;">
+                                                                            <img src="{{ asset('storage/' . $option->image) }}"
+                                                                                 alt="{{ $option->option_text }}"
+                                                                                 class="w-100 h-100"
+                                                                                 style="object-fit: cover;">
                                                                         </div>
-                                                                    </label>
-                                                                    <style>
-                                                                        #option{{ $option->id }}:checked + .option-card {
-                                                                            border-color: {{ $option->color ?? '#0d6efd' }} !important;
-                                                                            box-shadow: 0 0 0 3px {{ $option->color ?? '#0d6efd' }}33 !important;
-                                                                            transform: translateY(-4px);
-                                                                        }
-                                                                        .option-card:hover {
-                                                                            border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
-                                                                            transform: translateY(-2px);
-                                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                                                                        }
-                                                                    </style>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
+                                                                    @endif
+                                                                    <div class="grow">
+                                                                        <strong class="d-block" style="font-size: 1.1rem;">{{ $option->option_text }}</strong>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
                                                     @else
                                                         <!-- Vista tradicional sin imágenes -->
                                                         @foreach($question->options->shuffle() as $option)
@@ -185,45 +180,40 @@
                                                     @endphp
 
                                                     @if($hasImages)
-                                                        <!-- Vista con imágenes tipo grid -->
-                                                        <div class="row g-3">
-                                                            @foreach($question->options as $option)
-                                                                <div class="col-md-6 col-lg-4">
-                                                                    <input type="checkbox"
-                                                                           class="btn-check"
+                                                        <!-- Vista con imágenes en línea horizontal -->
+                                                        @foreach($question->options as $option)
+                                                            <style>
+                                                                #option{{ $option->id }}:checked ~ .option-label-{{ $option->id }} {
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }} !important;
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }}11 !important;
+                                                                }
+                                                                .option-label-{{ $option->id }}:hover {
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }}08 !important;
+                                                                }
+                                                            </style>
+                                                            <div class="mb-3 option-label-{{ $option->id }}"
+                                                                 style="border: 2px solid #dee2e6; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: white;">
+                                                                <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
+                                                                    <input class="form-check-input shrink-0" type="checkbox"
                                                                            name="answers[{{ $question->id }}][]"
                                                                            value="{{ $option->id }}"
-                                                                           id="option{{ $option->id }}">
-                                                                    <label class="option-card w-100"
-                                                                           for="option{{ $option->id }}"
-                                                                           style="cursor: pointer; border: 3px solid #dee2e6; border-radius: 12px; padding: 0; overflow: hidden; transition: all 0.3s ease; display: block; background: white;">
-                                                                        @if($option->image)
-                                                                            <div style="aspect-ratio: 1/1; overflow: hidden; background: #f8f9fa;">
-                                                                                <img src="{{ asset('storage/' . $option->image) }}"
-                                                                                     alt="{{ $option->option_text }}"
-                                                                                     class="w-100 h-100"
-                                                                                     style="object-fit: cover;">
-                                                                            </div>
-                                                                        @endif
-                                                                        <div class="p-3 text-center" style="background: white;">
-                                                                            <strong class="d-block">{{ $option->option_text }}</strong>
+                                                                           id="option{{ $option->id }}"
+                                                                           style="width: 24px; height: 24px; margin: 0;">
+                                                                    @if($option->image)
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #f8f9fa;">
+                                                                            <img src="{{ asset('storage/' . $option->image) }}"
+                                                                                 alt="{{ $option->option_text }}"
+                                                                                 class="w-100 h-100"
+                                                                                 style="object-fit: cover;">
                                                                         </div>
-                                                                    </label>
-                                                                    <style>
-                                                                        #option{{ $option->id }}:checked + .option-card {
-                                                                            border-color: {{ $option->color ?? '#0d6efd' }} !important;
-                                                                            box-shadow: 0 0 0 3px {{ $option->color ?? '#0d6efd' }}33 !important;
-                                                                            transform: translateY(-4px);
-                                                                        }
-                                                                        .option-card:hover {
-                                                                            border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
-                                                                            transform: translateY(-2px);
-                                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                                                                        }
-                                                                    </style>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
+                                                                    @endif
+                                                                    <div class="grow">
+                                                                        <strong class="d-block" style="font-size: 1.1rem;">{{ $option->option_text }}</strong>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
                                                     @else
                                                         <!-- Vista tradicional sin imágenes -->
                                                         @foreach($question->options as $option)
