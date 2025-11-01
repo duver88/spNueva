@@ -112,59 +112,138 @@
 
                                                 @if($question->question_type === 'single_choice')
                                                     <!-- Radio buttons para selección única -->
-                                                    @foreach($question->options->shuffle() as $option)
-                                                        <style>
-                                                            #option{{ $option->id }}:checked {
-                                                                background-color: {{ $option->color ?? '#0d6efd' }};
-                                                                border-color: {{ $option->color ?? '#0d6efd' }};
-                                                            }
-                                                        </style>
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="answers[{{ $question->id }}]"
-                                                                   value="{{ $option->id }}"
-                                                                   id="option{{ $option->id }}"
-                                                                   required>
-                                                            <label class="form-check-label fw-medium" for="option{{ $option->id }}">
-                                                                @if($option->image)
-                                                                    <div class="mb-2">
-                                                                        <img src="{{ asset('storage/' . $option->image) }}"
-                                                                             alt="{{ $option->option_text }}"
-                                                                             class="img-fluid rounded shadow-sm"
-                                                                             style="max-width: 200px; max-height: 200px; object-fit: cover;">
-                                                                    </div>
-                                                                @endif
-                                                                {{ $option->option_text }}
-                                                            </label>
+                                                    @php
+                                                        $hasImages = $question->options->contains(fn($opt) => !empty($opt->image));
+                                                    @endphp
+
+                                                    @if($hasImages)
+                                                        <!-- Vista con imágenes tipo grid -->
+                                                        <div class="row g-3">
+                                                            @foreach($question->options->shuffle() as $option)
+                                                                <div class="col-md-6 col-lg-4">
+                                                                    <input type="radio"
+                                                                           class="btn-check"
+                                                                           name="answers[{{ $question->id }}]"
+                                                                           value="{{ $option->id }}"
+                                                                           id="option{{ $option->id }}"
+                                                                           required>
+                                                                    <label class="option-card w-100"
+                                                                           for="option{{ $option->id }}"
+                                                                           style="cursor: pointer; border: 3px solid #dee2e6; border-radius: 12px; padding: 0; overflow: hidden; transition: all 0.3s ease; display: block; background: white;">
+                                                                        @if($option->image)
+                                                                            <div style="aspect-ratio: 1/1; overflow: hidden; background: #f8f9fa;">
+                                                                                <img src="{{ asset('storage/' . $option->image) }}"
+                                                                                     alt="{{ $option->option_text }}"
+                                                                                     class="w-100 h-100"
+                                                                                     style="object-fit: cover;">
+                                                                            </div>
+                                                                        @endif
+                                                                        <div class="p-3 text-center" style="background: white;">
+                                                                            <strong class="d-block">{{ $option->option_text }}</strong>
+                                                                        </div>
+                                                                    </label>
+                                                                    <style>
+                                                                        #option{{ $option->id }}:checked + .option-card {
+                                                                            border-color: {{ $option->color ?? '#0d6efd' }} !important;
+                                                                            box-shadow: 0 0 0 3px {{ $option->color ?? '#0d6efd' }}33 !important;
+                                                                            transform: translateY(-4px);
+                                                                        }
+                                                                        .option-card:hover {
+                                                                            border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
+                                                                            transform: translateY(-2px);
+                                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                                                        }
+                                                                    </style>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
-                                                    @endforeach
+                                                    @else
+                                                        <!-- Vista tradicional sin imágenes -->
+                                                        @foreach($question->options->shuffle() as $option)
+                                                            <style>
+                                                                #option{{ $option->id }}:checked {
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }};
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }};
+                                                                }
+                                                            </style>
+                                                            <div class="form-check mb-3">
+                                                                <input class="form-check-input" type="radio"
+                                                                       name="answers[{{ $question->id }}]"
+                                                                       value="{{ $option->id }}"
+                                                                       id="option{{ $option->id }}"
+                                                                       required>
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}">
+                                                                    {{ $option->option_text }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
                                                 @else
                                                     <!-- Checkboxes para selección múltiple -->
-                                                    @foreach($question->options as $option)
-                                                        <style>
-                                                            #option{{ $option->id }}:checked {
-                                                                background-color: {{ $option->color ?? '#0d6efd' }};
-                                                                border-color: {{ $option->color ?? '#0d6efd' }};
-                                                            }
-                                                        </style>
-                                                        <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                   name="answers[{{ $question->id }}][]"
-                                                                   value="{{ $option->id }}"
-                                                                   id="option{{ $option->id }}">
-                                                            <label class="form-check-label fw-medium" for="option{{ $option->id }}">
-                                                                @if($option->image)
-                                                                    <div class="mb-2">
-                                                                        <img src="{{ asset('storage/' . $option->image) }}"
-                                                                             alt="{{ $option->option_text }}"
-                                                                             class="img-fluid rounded shadow-sm"
-                                                                             style="max-width: 200px; max-height: 200px; object-fit: cover;">
-                                                                    </div>
-                                                                @endif
-                                                                {{ $option->option_text }}
-                                                            </label>
+                                                    @php
+                                                        $hasImages = $question->options->contains(fn($opt) => !empty($opt->image));
+                                                    @endphp
+
+                                                    @if($hasImages)
+                                                        <!-- Vista con imágenes tipo grid -->
+                                                        <div class="row g-3">
+                                                            @foreach($question->options as $option)
+                                                                <div class="col-md-6 col-lg-4">
+                                                                    <input type="checkbox"
+                                                                           class="btn-check"
+                                                                           name="answers[{{ $question->id }}][]"
+                                                                           value="{{ $option->id }}"
+                                                                           id="option{{ $option->id }}">
+                                                                    <label class="option-card w-100"
+                                                                           for="option{{ $option->id }}"
+                                                                           style="cursor: pointer; border: 3px solid #dee2e6; border-radius: 12px; padding: 0; overflow: hidden; transition: all 0.3s ease; display: block; background: white;">
+                                                                        @if($option->image)
+                                                                            <div style="aspect-ratio: 1/1; overflow: hidden; background: #f8f9fa;">
+                                                                                <img src="{{ asset('storage/' . $option->image) }}"
+                                                                                     alt="{{ $option->option_text }}"
+                                                                                     class="w-100 h-100"
+                                                                                     style="object-fit: cover;">
+                                                                            </div>
+                                                                        @endif
+                                                                        <div class="p-3 text-center" style="background: white;">
+                                                                            <strong class="d-block">{{ $option->option_text }}</strong>
+                                                                        </div>
+                                                                    </label>
+                                                                    <style>
+                                                                        #option{{ $option->id }}:checked + .option-card {
+                                                                            border-color: {{ $option->color ?? '#0d6efd' }} !important;
+                                                                            box-shadow: 0 0 0 3px {{ $option->color ?? '#0d6efd' }}33 !important;
+                                                                            transform: translateY(-4px);
+                                                                        }
+                                                                        .option-card:hover {
+                                                                            border-color: {{ $option->color ?? '#0d6efd' }}66 !important;
+                                                                            transform: translateY(-2px);
+                                                                            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                                                        }
+                                                                    </style>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
-                                                    @endforeach
+                                                    @else
+                                                        <!-- Vista tradicional sin imágenes -->
+                                                        @foreach($question->options as $option)
+                                                            <style>
+                                                                #option{{ $option->id }}:checked {
+                                                                    background-color: {{ $option->color ?? '#0d6efd' }};
+                                                                    border-color: {{ $option->color ?? '#0d6efd' }};
+                                                                }
+                                                            </style>
+                                                            <div class="form-check mb-3">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="answers[{{ $question->id }}][]"
+                                                                       value="{{ $option->id }}"
+                                                                       id="option{{ $option->id }}">
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}">
+                                                                    {{ $option->option_text }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
                                                 @endif
                                             </div>
                                         </div>
