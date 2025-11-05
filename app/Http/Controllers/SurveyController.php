@@ -155,6 +155,26 @@ class SurveyController extends Controller
         $tokenRecord->incrementAttempt();
 
         // ===================================================================
+        // VALIDACIÓN DE GRUPO: Si la encuesta pertenece a un grupo con restricción,
+        // verificar que el usuario no haya votado en otra encuesta del grupo
+        // ===================================================================
+        if ($survey->survey_group_id) {
+            $group = $survey->group;
+
+            if ($group && $group->restrict_voting) {
+                // Verificar si ya votó en alguna encuesta del grupo
+                $votedSurvey = $group->getVotedSurvey($fingerprint);
+
+                if ($votedSurvey && $votedSurvey->id !== $survey->id) {
+                    // Ya votó en otra encuesta del grupo - MOSTRAR ÉXITO pero NO contar el voto
+                    return redirect()->route('surveys.thanks', $survey->public_slug)
+                        ->with('success', '¡Gracias por tu participación!')
+                        ->with('group_restricted', true); // Flag interno
+                }
+            }
+        }
+
+        // ===================================================================
         // RATE LIMITING: Verificar límites ANTES de procesar el voto
         // ===================================================================
         $rateLimiter = new VoteRateLimiter();

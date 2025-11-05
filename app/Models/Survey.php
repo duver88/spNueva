@@ -20,6 +20,7 @@ class Survey extends Model
         'published_at',
         'finished_at',
         'views_count',
+        'survey_group_id',
     ];
 
     protected $casts = [
@@ -63,6 +64,11 @@ class Survey extends Model
     public function tokens()
     {
         return $this->hasMany(SurveyToken::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(SurveyGroup::class, 'survey_group_id');
     }
 
     // Métodos útiles - SOLO CONTAR VOTOS VÁLIDOS (con tokens o manuales)

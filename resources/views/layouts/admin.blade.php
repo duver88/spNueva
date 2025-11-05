@@ -362,9 +362,13 @@
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('admin.surveys.index') }}" class="sidebar-nav-link {{ request()->routeIs('admin.surveys.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.surveys.index') }}" class="sidebar-nav-link {{ request()->routeIs('admin.surveys.*') && !request()->routeIs('admin.survey-groups.*') ? 'active' : '' }}">
                 <i class="bi bi-clipboard-data"></i>
                 <span>Encuestas</span>
+            </a>
+            <a href="{{ route('admin.survey-groups.index') }}" class="sidebar-nav-link {{ request()->routeIs('admin.survey-groups.*') ? 'active' : '' }}">
+                <i class="bi bi-collection"></i>
+                <span>Grupos</span>
             </a>
 
             <div class="nav-section-title">Cuenta</div>

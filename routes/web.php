@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SurveyController as AdminSurveyController;
+use App\Http\Controllers\Admin\SurveyGroupController;
 use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SurveyController;
@@ -61,5 +62,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/surveys/{survey}/tokens/{token}', [TokenController::class, 'show'])->name('surveys.tokens.show');
     Route::delete('/surveys/{survey}/tokens/{token}', [TokenController::class, 'destroy'])->name('surveys.tokens.destroy');
     Route::post('/surveys/{survey}/tokens/bulk-delete', [TokenController::class, 'bulkDelete'])->name('surveys.tokens.bulk-delete');
+
+    // Gestión de grupos de encuestas
+    Route::resource('survey-groups', SurveyGroupController::class);
+    Route::post('/survey-groups/{group}/add-survey', [SurveyGroupController::class, 'addSurvey'])->name('survey-groups.add-survey');
+    Route::delete('/survey-groups/{group}/surveys/{survey}', [SurveyGroupController::class, 'removeSurvey'])->name('survey-groups.remove-survey');
 });
 

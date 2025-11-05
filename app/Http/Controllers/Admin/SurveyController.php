@@ -573,6 +573,11 @@ class SurveyController extends Controller
                 $newSurveyData['show_results'] = $survey->show_results;
             }
 
+            // Mantener el grupo si la encuesta original pertenece a uno
+            if ($survey->survey_group_id) {
+                $newSurveyData['survey_group_id'] = $survey->survey_group_id;
+            }
+
             // Crear una nueva encuesta con los mismos datos
             $newSurvey = Survey::create($newSurveyData);
 
