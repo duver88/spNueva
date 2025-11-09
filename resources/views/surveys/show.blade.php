@@ -10,43 +10,44 @@
 @section('og_description', $survey->description ?? 'Participa en esta encuesta y comparte tu opinión')
 
 @section('content')
-<div class="min-vh-100 d-flex align-items-center position-relative" style="background: linear-gradient(135deg, #fff9e6 0%, #e6f2ff 50%, #ffe6e6 100%);">
-    <!-- Efecto difuminado de fondo - Colores de Colombia -->
+<div class="min-vh-100 d-flex align-items-center position-relative" style="background: #0a0a0a;">
+    <!-- Efecto difuminado de fondo - Rojo y Negro elegante -->
     <div class="position-absolute w-100 h-100" style="overflow: hidden; z-index: 0;">
-        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 209, 0, 0.2) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 550px; height: 550px; background: radial-gradient(circle, rgba(206, 17, 38, 0.15) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 56, 168, 0.15) 0%, transparent 70%); filter: blur(50px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 50%; left: 20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 209, 0, 0.12) 0%, transparent 70%); filter: blur(55px);"></div>
+        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(220, 20, 60, 0.25) 0%, transparent 70%); filter: blur(80px);"></div>
+        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 650px; height: 650px; background: radial-gradient(circle, rgba(139, 0, 0, 0.3) 0%, transparent 70%); filter: blur(90px);"></div>
+        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, transparent 70%); filter: blur(70px);"></div>
+        <div class="blur-circle" style="position: absolute; top: 50%; left: 20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(178, 34, 34, 0.18) 0%, transparent 70%); filter: blur(65px);"></div>
+        <div class="blur-circle" style="position: absolute; bottom: 30%; left: 40%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); filter: blur(60px);"></div>
     </div>
 
     <div class="container py-5 position-relative" style="z-index: 1;">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
-                <!-- Card principal -->
-                <div class="card border-0 rounded-4 overflow-hidden" style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                <!-- Card principal con diseño rojo y negro -->
+                <div class="card border-0 rounded-4 overflow-hidden" style="backdrop-filter: blur(20px); background: rgba(20, 20, 20, 0.85); box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 1px solid rgba(220, 20, 60, 0.2);">
                     <!-- Banner -->
                     @if($survey->banner)
-                        <div class="banner-wrapper-form">
+                        <div class="banner-wrapper-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3);">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
                                  class="w-100 banner-img-form"
-                                 style="display: block; height: auto; max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                                 style="display: block; height: auto; max-height: 400px; object-fit: contain; opacity: 0.9;">
                         </div>
                     @else
                         <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center"
-                             style="height: 200px; background: linear-gradient(180deg, #FCD116 0%, #FCD116 50%, #003893 75%, #CE1126 100%);">
-                            <i class="bi bi-clipboard-data text-white" style="font-size: 4rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);"></i>
+                             style="height: 200px; background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #000000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.5);">
+                            <i class="bi bi-clipboard-data" style="font-size: 4rem; color: #ffffff; text-shadow: 0 0 20px rgba(220, 20, 60, 0.8), 2px 2px 4px rgba(0,0,0,0.5);"></i>
                         </div>
                     @endif
 
                     <div class="card-body p-4 p-md-5">
-                        <!-- Título y descripción -->
+                        <!-- Título y descripción con tema rojo y negro -->
                         <div class="text-center mb-5">
-                            <h1 class="display-5 fw-bold text-dark mb-3">{{ $survey->title }}</h1>
+                            <h1 class="display-5 fw-bold mb-3" style="color: #ffffff; text-shadow: 0 0 30px rgba(220, 20, 60, 0.6), 0 0 10px rgba(255, 255, 255, 0.3); letter-spacing: -0.5px;">{{ $survey->title }}</h1>
                             @if($survey->description)
-                                <p class="lead text-muted">{{ $survey->description }}</p>
+                                <p class="lead" style="color: #e0e0e0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $survey->description }}</p>
                             @endif
-                            <hr class="my-4">
+                            <hr class="my-4" style="border-color: rgba(220, 20, 60, 0.3); opacity: 0.5;">
                         </div>
 
                         @if(session('error'))
@@ -101,14 +102,14 @@
                                 <input type="text" name="url_field" id="url_field" style="position:absolute;left:-9999px;width:1px;height:1px;" tabindex="-1" autocomplete="off">
 
                                 @foreach($survey->questions as $question)
-                                    <div class="mb-5 pb-4 border-bottom">
+                                    <div class="mb-5 pb-4" style="border-bottom: 1px solid rgba(220, 20, 60, 0.2);">
                                         <div class="d-flex align-items-start mb-3">
-                                            <div class="bg-primary bg-gradient rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0"
-                                                 style="width: 40px; height: 40px;">
-                                                <span class="text-white fw-bold">{{ $loop->iteration }}</span>
+                                            <div class="bg-gradient rounded-circle d-flex align-items-center justify-content-center me-3 shrink-0"
+                                                 style="width: 45px; height: 45px; background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); box-shadow: 0 0 20px rgba(220, 20, 60, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);">
+                                                <span class="fw-bold" style="color: #ffffff; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">{{ $loop->iteration }}</span>
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <h5 class="fw-semibold text-dark mb-3">{{ $question->question_text }}</h5>
+                                            <div class="grow">
+                                                <h5 class="fw-semibold mb-3" style="color: #ffffff; text-shadow: 0 0 15px rgba(220, 20, 60, 0.4);">{{ $question->question_text }}</h5>
 
                                                 @if($question->question_type === 'single_choice')
                                                     <!-- Radio buttons para selección única -->
@@ -130,24 +131,24 @@
                                                                 }
                                                             </style>
                                                             <div class="mb-3 option-label-{{ $option->id }}"
-                                                                 style="border: 2px solid #dee2e6; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: white;">
+                                                                 style="border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
                                                                 <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
                                                                     <input class="form-check-input shrink-0" type="radio"
                                                                            name="answers[{{ $question->id }}]"
                                                                            value="{{ $option->id }}"
                                                                            id="option{{ $option->id }}"
-                                                                           style="width: 24px; height: 24px; margin: 0;"
+                                                                           style="width: 24px; height: 24px; margin: 0; accent-color: {{ $option->color ?? '#DC143C' }};"
                                                                            required>
                                                                     @if($option->image)
-                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #f8f9fa;">
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.3); border: 2px solid {{ $option->color ?? '#DC143C' }}40;">
                                                                             <img src="{{ asset('storage/' . $option->image) }}"
                                                                                  alt="{{ $option->option_text }}"
                                                                                  class="w-100 h-100"
-                                                                                 style="object-fit: cover;">
+                                                                                 style="object-fit: cover; filter: brightness(0.9);">
                                                                         </div>
                                                                     @endif
                                                                     <div class="grow">
-                                                                        <strong class="d-block" style="font-size: 1.1rem;">{{ $option->option_text }}</strong>
+                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $option->option_text }}</strong>
                                                                     </div>
                                                                 </label>
                                                             </div>
@@ -161,13 +162,14 @@
                                                                     border-color: {{ $option->color ?? '#0d6efd' }};
                                                                 }
                                                             </style>
-                                                            <div class="form-check mb-3">
+                                                            <div class="form-check mb-3" style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px); padding: 1rem; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
                                                                 <input class="form-check-input" type="radio"
                                                                        name="answers[{{ $question->id }}]"
                                                                        value="{{ $option->id }}"
                                                                        id="option{{ $option->id }}"
+                                                                       style="accent-color: {{ $option->color ?? '#DC143C' }};"
                                                                        required>
-                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}">
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
                                                                     {{ $option->option_text }}
                                                                 </label>
                                                             </div>
@@ -193,23 +195,23 @@
                                                                 }
                                                             </style>
                                                             <div class="mb-3 option-label-{{ $option->id }}"
-                                                                 style="border: 2px solid #dee2e6; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: white;">
+                                                                 style="border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
                                                                 <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
                                                                     <input class="form-check-input shrink-0" type="checkbox"
                                                                            name="answers[{{ $question->id }}][]"
                                                                            value="{{ $option->id }}"
                                                                            id="option{{ $option->id }}"
-                                                                           style="width: 24px; height: 24px; margin: 0;">
+                                                                           style="width: 24px; height: 24px; margin: 0; accent-color: {{ $option->color ?? '#DC143C' }};">
                                                                     @if($option->image)
-                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #f8f9fa;">
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.3); border: 2px solid {{ $option->color ?? '#DC143C' }}40;">
                                                                             <img src="{{ asset('storage/' . $option->image) }}"
                                                                                  alt="{{ $option->option_text }}"
                                                                                  class="w-100 h-100"
-                                                                                 style="object-fit: cover;">
+                                                                                 style="object-fit: cover; filter: brightness(0.9);">
                                                                         </div>
                                                                     @endif
                                                                     <div class="grow">
-                                                                        <strong class="d-block" style="font-size: 1.1rem;">{{ $option->option_text }}</strong>
+                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $option->option_text }}</strong>
                                                                     </div>
                                                                 </label>
                                                             </div>
@@ -223,12 +225,13 @@
                                                                     border-color: {{ $option->color ?? '#0d6efd' }};
                                                                 }
                                                             </style>
-                                                            <div class="form-check mb-3">
+                                                            <div class="form-check mb-3" style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px); padding: 1rem; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="answers[{{ $question->id }}][]"
                                                                        value="{{ $option->id }}"
-                                                                       id="option{{ $option->id }}">
-                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}">
+                                                                       id="option{{ $option->id }}"
+                                                                       style="accent-color: {{ $option->color ?? '#DC143C' }};">
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
                                                                     {{ $option->option_text }}
                                                                 </label>
                                                             </div>
@@ -243,13 +246,13 @@
                                 <!-- Botón de envío -->
                                 <div class="d-grid gap-2 mt-5">
                                     <button type="submit" class="btn btn-lg text-white fw-bold shadow"
-                                            style="background: linear-gradient(90deg, #FCD116 0%, #003893 50%, #CE1126 100%); padding: 1rem; border: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                            style="background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); padding: 1.2rem; border: 2px solid rgba(220, 20, 60, 0.5); text-shadow: 0 2px 4px rgba(0,0,0,0.5); box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4), 0 0 40px rgba(255, 0, 0, 0.2);">
                                         <i class="bi bi-send-fill"></i> Enviar mi voto
                                     </button>
                                 </div>
 
                                 <div class="text-center mt-4">
-                                    <small class="text-muted">
+                                    <small style="color: #b0b0b0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">
                                         <i class="bi bi-shield-check"></i> Tu voto es anónimo y seguro
                                     </small>
                                 </div>
@@ -258,8 +261,8 @@
                     </div>
 
                     <!-- Footer del card -->
-                    <div class="card-footer bg-light text-center py-3">
-                        <small class="text-muted">
+                    <div class="card-footer text-center py-3" style="background: rgba(10, 10, 10, 0.8); border-top: 1px solid rgba(220, 20, 60, 0.3);">
+                        <small style="color: #808080;">
                             <i class="bi bi-clipboard-data"></i> Sistema de Encuestas
                         </small>
                     </div>
