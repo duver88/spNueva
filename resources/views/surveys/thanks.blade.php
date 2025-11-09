@@ -34,18 +34,18 @@
         <div class="blur-circle" style="position: absolute; bottom: 30%; left: 40%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); filter: blur(60px);"></div>
     </div>
 
-    <div class="container position-relative" style="z-index: 1;">
+    <div class="container position-relative" style="z-index: 1; padding: 0;">
         <!-- Tarjeta única con todo el contenido -->
-        <div class="row justify-content-center">
+        <div class="row justify-content-center g-0">
             <div class="col-12 col-lg-10 col-xl-9">
-                <div class="card border-0 rounded-4 overflow-hidden shadow-lg success-card" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
+                <div class="card border-0 overflow-hidden shadow-lg success-card" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner de la encuesta (si existe) -->
                     @if($survey->banner)
-                        <div class="banner-wrapper" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <div class="banner-wrapper" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0; padding: 0;">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
                                  class="banner-img"
-                                 style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                                 style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9;">
                         </div>
                     @endif
 
@@ -407,7 +407,7 @@
 
 /* Estilos responsivos personalizados */
 .thanks-container {
-    padding: 2rem 0.75rem;
+    padding: 2rem 0;
 }
 
 .thanks-card-body {
@@ -443,11 +443,7 @@
 @media (max-width: 768px) {
     /* Ajustes generales */
     .thanks-container {
-        padding: 1.5rem 0.5rem !important;
-    }
-
-    .container {
-        padding: 0 0.75rem !important;
+        padding: 1.5rem 0 !important;
     }
 
     .thanks-card-body {
@@ -628,7 +624,7 @@
 @media (max-width: 576px) {
     /* Ajustes extremos para pantallas muy pequeñas */
     .thanks-container {
-        padding: 1rem 0.25rem !important;
+        padding: 1rem 0 !important;
     }
 
     .thanks-card-body {

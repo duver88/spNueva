@@ -20,18 +20,18 @@
         <div class="blur-circle" style="position: absolute; bottom: 30%; left: 40%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); filter: blur(60px);"></div>
     </div>
 
-    <div class="container survey-container position-relative" style="z-index: 1;">
-        <div class="row justify-content-center">
+    <div class="container survey-container position-relative" style="z-index: 1; padding: 0;">
+        <div class="row justify-content-center g-0">
             <div class="col-12 col-md-10 col-lg-8">
                 <!-- Card principal con diseño rojo y negro -->
-                <div class="card border-0 rounded-4 overflow-hidden" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
+                <div class="card border-0 overflow-hidden" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner -->
                     @if($survey->banner)
-                        <div class="banner-wrapper-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <div class="banner-wrapper-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0; padding: 0;">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
                                  class="banner-img-form"
-                                 style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                                 style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9;">
                         </div>
                     @else
                         <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center"
@@ -660,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Estilos base para elementos */
 .survey-container {
-    padding: 1.5rem 0.75rem;
+    padding: 1.5rem 0;
 }
 
 .survey-card-body {
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .survey-container {
-        padding: 1rem 0.5rem;
+        padding: 1rem 0;
     }
 
     .survey-card-body {
@@ -868,7 +868,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @media (max-width: 576px) {
     .survey-container {
-        padding: 0.5rem 0.25rem;
+        padding: 0.5rem 0;
     }
 
     .survey-card-body {
