@@ -41,11 +41,10 @@
                 <div class="card border-0 overflow-hidden shadow-lg success-card" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner de la encuesta (si existe) -->
                     @if($survey->banner)
-                        <div class="banner-wrapper" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0; padding: 0;">
+                        <div class="banner-wrapper">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
-                                 class="banner-img"
-                                 style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9;">
+                                 class="banner-img">
                         </div>
                     @endif
 
@@ -222,7 +221,21 @@
 <style>
 /* Estilos del banner */
 .banner-wrapper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
     animation: fadeIn 0.8s ease-out;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.9;
 }
 
 @keyframes fadeIn {
@@ -513,11 +526,6 @@
         font-size: 0.75rem !important;
     }
 
-    /* Banner móvil */
-    .banner-wrapper {
-        height: 250px !important;
-    }
-
     /* Título de resultados */
     .results-section h3 {
         margin-bottom: 2rem !important;
@@ -683,11 +691,6 @@
     .progress {
         height: 24px !important;
         border-radius: 12px !important;
-    }
-
-    /* Banner extra pequeño */
-    .banner-wrapper {
-        height: 200px !important;
     }
 }
 

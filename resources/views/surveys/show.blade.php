@@ -27,11 +27,10 @@
                 <div class="card border-0 overflow-hidden" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner -->
                     @if($survey->banner)
-                        <div class="banner-wrapper-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3); height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0; padding: 0;">
+                        <div class="banner-wrapper-form">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
-                                 class="banner-img-form"
-                                 style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9;">
+                                 class="banner-img-form">
                         </div>
                     @else
                         <div class="card-img-top bg-gradient d-flex align-items-center justify-content-center"
@@ -605,19 +604,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <style>
 /* Estilos del banner del formulario */
 .banner-wrapper-form {
+    width: 100%;
+    height: auto;
     overflow: hidden;
-    background: #f8f9fa;
-    min-height: 200px;
-    max-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
 }
 
 .banner-img-form {
-    object-fit: contain !important;
     width: 100%;
     height: auto;
+    display: block;
+    opacity: 0.9;
 }
 
 .form-check {
@@ -860,10 +860,7 @@ document.addEventListener('DOMContentLoaded', function() {
         font-size: 0.95rem;
     }
 
-    /* Banner móvil */
-    .banner-wrapper-form {
-        height: 250px !important;
-    }
+}
 }
 
 @media (max-width: 576px) {
@@ -935,11 +932,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .card-img-top {
         height: 150px !important;
-    }
-
-    /* Banner extra pequeño */
-    .banner-wrapper-form {
-        height: 200px !important;
     }
 }
 </style>
