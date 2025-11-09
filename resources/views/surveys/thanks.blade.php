@@ -24,36 +24,37 @@
     ];
 @endphp
 
-<div class="min-vh-100 position-relative py-5" style="background: linear-gradient(135deg, #fff9e6 0%, #e6f2ff 50%, #ffe6e6 100%);">
-    <!-- Efecto difuminado de fondo - Colores de Colombia -->
+<div class="min-vh-100 position-relative thanks-container" style="background: #0a0a0a;">
+    <!-- Efecto difuminado de fondo - Rojo y Negro elegante -->
     <div class="position-absolute w-100 h-100" style="overflow: hidden; z-index: 0; top: 0; left: 0;">
-        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 209, 0, 0.2) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 550px; height: 550px; background: radial-gradient(circle, rgba(206, 17, 38, 0.15) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 56, 168, 0.15) 0%, transparent 70%); filter: blur(50px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 50%; left: 20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 209, 0, 0.12) 0%, transparent 70%); filter: blur(55px);"></div>
+        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(220, 20, 60, 0.25) 0%, transparent 70%); filter: blur(80px);"></div>
+        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 650px; height: 650px; background: radial-gradient(circle, rgba(139, 0, 0, 0.3) 0%, transparent 70%); filter: blur(90px);"></div>
+        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, transparent 70%); filter: blur(70px);"></div>
+        <div class="blur-circle" style="position: absolute; top: 50%; left: 20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(178, 34, 34, 0.18) 0%, transparent 70%); filter: blur(65px);"></div>
+        <div class="blur-circle" style="position: absolute; bottom: 30%; left: 40%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); filter: blur(60px);"></div>
     </div>
 
     <div class="container position-relative" style="z-index: 1;">
         <!-- Tarjeta única con todo el contenido -->
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-9">
-                <div class="card border-0 rounded-4 overflow-hidden shadow-lg success-card" style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.98);">
+                <div class="card border-0 rounded-4 overflow-hidden shadow-lg success-card" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner de la encuesta (si existe) -->
                     @if($survey->banner)
-                        <div class="banner-wrapper">
+                        <div class="banner-wrapper" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3);">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
                                  class="w-100 banner-img"
-                                 style="display: block; height: auto; max-height: 400px; object-fit: contain; background: #f8f9fa;">
+                                 style="display: block; height: auto; max-height: 400px; object-fit: contain; opacity: 0.9;">
                         </div>
                     @endif
 
-                    <div class="card-body p-4 p-md-5">
+                    <div class="card-body thanks-card-body">
                         <!-- Título de la encuesta debajo del banner -->
                         @if($survey->banner)
-                            <div class="text-center mb-4 pb-3 border-bottom">
-                                <h3 class="fw-bold text-dark mb-2">
-                                    <i class="bi bi-clipboard-data text-primary"></i> {{ $survey->title }}
+                            <div class="text-center thanks-survey-title">
+                                <h3 class="fw-bold mb-2" style="color: #DC143C;">
+                                    <i class="bi bi-clipboard-data"></i> {{ $survey->title }}
                                 </h3>
                                 @if($survey->description)
                                     <p class="text-muted mb-0">{{ $survey->description }}</p>
@@ -62,15 +63,15 @@
                         @endif
 
                         <!-- Sección de éxito -->
-                        <div class="text-center mb-5 pb-4 border-bottom">
+                        <div class="text-center thanks-success-section">
                             <!-- Ícono de éxito animado -->
                             <div class="mb-4 success-animation">
-                                <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                                <i class="bi bi-check-circle-fill" style="font-size: 4rem; color: #DC143C;"></i>
                             </div>
 
                             <!-- Mensaje principal -->
-                            <h1 class="display-6 fw-bold text-dark mb-3">¡Gracias por participar!</h1>
-                            <p class="lead text-muted mb-0">Tu voto ha sido registrado exitosamente</p>
+                            <h1 class="thanks-main-title">¡Gracias por participar!</h1>
+                            <p class="thanks-subtitle">Tu voto ha sido registrado exitosamente</p>
 
                             @if(!$survey->banner)
                                 <hr class="my-4">
@@ -417,23 +418,75 @@
     }
 }
 
+/* Estilos responsivos personalizados */
+.thanks-container {
+    padding: 2rem 0.75rem;
+}
+
+.thanks-card-body {
+    padding: 2rem 2.5rem;
+}
+
+.thanks-survey-title {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(220, 20, 60, 0.2);
+}
+
+.thanks-success-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(220, 20, 60, 0.2);
+}
+
+.thanks-main-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.thanks-subtitle {
+    font-size: 1.25rem;
+    color: #6b7280;
+    margin-bottom: 0;
+}
+
 /* Responsive para móviles */
 @media (max-width: 768px) {
     /* Ajustes generales */
-    .min-vh-100 {
-        padding: 2rem 0 !important;
+    .thanks-container {
+        padding: 1.5rem 0.5rem !important;
     }
 
     .container {
-        padding: 0 1rem !important;
+        padding: 0 0.75rem !important;
+    }
+
+    .thanks-card-body {
+        padding: 1.5rem !important;
+    }
+
+    .thanks-survey-title {
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .thanks-survey-title h3 {
+        font-size: 1.25rem !important;
+    }
+
+    .thanks-success-section {
+        margin-bottom: 2rem !important;
+        padding-bottom: 1.5rem !important;
     }
 
     /* Tipografía móvil */
-    .display-6 {
-        font-size: 1.5rem !important;
+    .thanks-main-title {
+        font-size: 1.75rem !important;
     }
 
-    .lead {
+    .thanks-subtitle {
         font-size: 1rem !important;
     }
 
@@ -477,25 +530,14 @@
         font-size: 0.75rem !important;
     }
 
-    /* Card principal */
-    .card-body {
-        padding: 2rem 1.5rem !important;
-    }
-
     /* Banner móvil */
     .banner-wrapper {
-        min-height: 180px !important;
-        max-height: 300px !important;
+        min-height: 150px !important;
+        max-height: 250px !important;
     }
 
     .banner-img {
-        max-height: 300px !important;
-    }
-
-    /* Sección de éxito */
-    .text-center.mb-5.pb-4 {
-        margin-bottom: 3rem !important;
-        padding-bottom: 2rem !important;
+        max-height: 250px !important;
     }
 
     /* Título de resultados */
@@ -603,12 +645,34 @@
 /* Responsive para móviles pequeños */
 @media (max-width: 576px) {
     /* Ajustes extremos para pantallas muy pequeñas */
-    .display-6 {
-        font-size: 1.4rem !important;
+    .thanks-container {
+        padding: 1rem 0.25rem !important;
     }
 
-    .card-body {
-        padding: 1.5rem 1rem !important;
+    .thanks-card-body {
+        padding: 1rem !important;
+    }
+
+    .thanks-survey-title {
+        margin-bottom: 1rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+
+    .thanks-survey-title h3 {
+        font-size: 1.1rem !important;
+    }
+
+    .thanks-success-section {
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .thanks-main-title {
+        font-size: 1.5rem !important;
+    }
+
+    .thanks-subtitle {
+        font-size: 0.9rem !important;
     }
 
     .chart-container-web {
