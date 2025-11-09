@@ -24,7 +24,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">
                 <!-- Card principal con diseño rojo y negro -->
-                <div class="card border-0 rounded-4 overflow-hidden" style="backdrop-filter: blur(20px); background: rgba(20, 20, 20, 0.85); box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 1px solid rgba(220, 20, 60, 0.2);">
+                <div class="card border-0 rounded-4 overflow-hidden" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
                     <!-- Banner -->
                     @if($survey->banner)
                         <div class="banner-wrapper-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%); border-bottom: 2px solid rgba(220, 20, 60, 0.3);">
@@ -42,10 +42,10 @@
 
                     <div class="card-body p-4 p-md-5">
                         <!-- Título y descripción con tema rojo y negro -->
-                        <div class="text-center mb-5">
-                            <h1 class="display-5 fw-bold mb-3" style="color: #ffffff; text-shadow: 0 0 30px rgba(220, 20, 60, 0.6), 0 0 10px rgba(255, 255, 255, 0.3); letter-spacing: -0.5px;">{{ $survey->title }}</h1>
+                        <div class="text-center mb-5" style="background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                            <h1 class="display-5 fw-bold mb-3" style="color: #DC143C; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); letter-spacing: -0.5px;">{{ $survey->title }}</h1>
                             @if($survey->description)
-                                <p class="lead" style="color: #e0e0e0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $survey->description }}</p>
+                                <p class="lead" style="color: #1a1a1a;">{{ $survey->description }}</p>
                             @endif
                             <hr class="my-4" style="border-color: rgba(220, 20, 60, 0.3); opacity: 0.5;">
                         </div>
@@ -102,14 +102,14 @@
                                 <input type="text" name="url_field" id="url_field" style="position:absolute;left:-9999px;width:1px;height:1px;" tabindex="-1" autocomplete="off">
 
                                 @foreach($survey->questions as $question)
-                                    <div class="mb-5 pb-4" style="border-bottom: 1px solid rgba(220, 20, 60, 0.2);">
-                                        <div class="d-flex align-items-start mb-3">
+                                    <div class="mb-5" style="background: #ffffff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); border: 2px solid rgba(220, 20, 60, 0.3);">
+                                        <div class="d-flex align-items-start mb-4" style="background: #ffffff; padding: 1rem; border-radius: 10px; border: 2px solid rgba(220, 20, 60, 0.4);">
                                             <div class="bg-gradient rounded-circle d-flex align-items-center justify-content-center me-3 shrink-0"
-                                                 style="width: 45px; height: 45px; background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); box-shadow: 0 0 20px rgba(220, 20, 60, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);">
+                                                 style="width: 45px; height: 45px; background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%); box-shadow: 0 0 20px rgba(220, 20, 60, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2); border: 2px solid rgba(220, 20, 60, 0.5);">
                                                 <span class="fw-bold" style="color: #ffffff; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">{{ $loop->iteration }}</span>
                                             </div>
                                             <div class="grow">
-                                                <h5 class="fw-semibold mb-3" style="color: #ffffff; text-shadow: 0 0 15px rgba(220, 20, 60, 0.4);">{{ $question->question_text }}</h5>
+                                                <h5 class="fw-semibold mb-0" style="color: #1a1a1a;">{{ $question->question_text }}</h5>
 
                                                 @if($question->question_type === 'single_choice')
                                                     <!-- Radio buttons para selección única -->
@@ -131,7 +131,7 @@
                                                                 }
                                                             </style>
                                                             <div class="mb-3 option-label-{{ $option->id }}"
-                                                                 style="border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
+                                                                 style="border: 2px solid #e0e0e0; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: #ffffff;">
                                                                 <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
                                                                     <input class="form-check-input shrink-0" type="radio"
                                                                            name="answers[{{ $question->id }}]"
@@ -140,15 +140,15 @@
                                                                            style="width: 24px; height: 24px; margin: 0; accent-color: {{ $option->color ?? '#DC143C' }};"
                                                                            required>
                                                                     @if($option->image)
-                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.3); border: 2px solid {{ $option->color ?? '#DC143C' }}40;">
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #ffffff; border: 2px solid {{ $option->color ?? '#DC143C' }};">
                                                                             <img src="{{ asset('storage/' . $option->image) }}"
                                                                                  alt="{{ $option->option_text }}"
                                                                                  class="w-100 h-100"
-                                                                                 style="object-fit: cover; filter: brightness(0.9);">
+                                                                                 style="object-fit: cover;">
                                                                         </div>
                                                                     @endif
                                                                     <div class="grow">
-                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $option->option_text }}</strong>
+                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #1a1a1a;">{{ $option->option_text }}</strong>
                                                                     </div>
                                                                 </label>
                                                             </div>
@@ -162,14 +162,14 @@
                                                                     border-color: {{ $option->color ?? '#0d6efd' }};
                                                                 }
                                                             </style>
-                                                            <div class="form-check mb-3" style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px); padding: 1rem; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+                                                            <div class="form-check mb-3" style="background: #ffffff; padding: 1rem; border-radius: 10px; border: 2px solid #e0e0e0; transition: all 0.3s ease;">
                                                                 <input class="form-check-input" type="radio"
                                                                        name="answers[{{ $question->id }}]"
                                                                        value="{{ $option->id }}"
                                                                        id="option{{ $option->id }}"
                                                                        style="accent-color: {{ $option->color ?? '#DC143C' }};"
                                                                        required>
-                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #1a1a1a; cursor: pointer;">
                                                                     {{ $option->option_text }}
                                                                 </label>
                                                             </div>
@@ -195,7 +195,7 @@
                                                                 }
                                                             </style>
                                                             <div class="mb-3 option-label-{{ $option->id }}"
-                                                                 style="border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px);">
+                                                                 style="border: 2px solid #e0e0e0; border-radius: 12px; padding: 1rem; transition: all 0.3s ease; cursor: pointer; background: #ffffff;">
                                                                 <label class="d-flex align-items-center w-100" for="option{{ $option->id }}" style="cursor: pointer; margin: 0;">
                                                                     <input class="form-check-input shrink-0" type="checkbox"
                                                                            name="answers[{{ $question->id }}][]"
@@ -203,15 +203,15 @@
                                                                            id="option{{ $option->id }}"
                                                                            style="width: 24px; height: 24px; margin: 0; accent-color: {{ $option->color ?? '#DC143C' }};">
                                                                     @if($option->image)
-                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.3); border: 2px solid {{ $option->color ?? '#DC143C' }}40;">
+                                                                        <div class="shrink-0 mx-3" style="width: 80px; height: 80px; overflow: hidden; border-radius: 8px; background: #ffffff; border: 2px solid {{ $option->color ?? '#DC143C' }};">
                                                                             <img src="{{ asset('storage/' . $option->image) }}"
                                                                                  alt="{{ $option->option_text }}"
                                                                                  class="w-100 h-100"
-                                                                                 style="object-fit: cover; filter: brightness(0.9);">
+                                                                                 style="object-fit: cover;">
                                                                         </div>
                                                                     @endif
                                                                     <div class="grow">
-                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">{{ $option->option_text }}</strong>
+                                                                        <strong class="d-block" style="font-size: 1.1rem; color: #1a1a1a;">{{ $option->option_text }}</strong>
                                                                     </div>
                                                                 </label>
                                                             </div>
@@ -225,13 +225,13 @@
                                                                     border-color: {{ $option->color ?? '#0d6efd' }};
                                                                 }
                                                             </style>
-                                                            <div class="form-check mb-3" style="background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(10px); padding: 1rem; border-radius: 10px; border: 2px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease;">
+                                                            <div class="form-check mb-3" style="background: #ffffff; padding: 1rem; border-radius: 10px; border: 2px solid #e0e0e0; transition: all 0.3s ease;">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="answers[{{ $question->id }}][]"
                                                                        value="{{ $option->id }}"
                                                                        id="option{{ $option->id }}"
                                                                        style="accent-color: {{ $option->color ?? '#DC143C' }};">
-                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); cursor: pointer;">
+                                                                <label class="form-check-label fw-medium" for="option{{ $option->id }}" style="color: #1a1a1a; cursor: pointer;">
                                                                     {{ $option->option_text }}
                                                                 </label>
                                                             </div>

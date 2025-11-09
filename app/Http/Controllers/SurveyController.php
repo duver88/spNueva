@@ -17,8 +17,17 @@ class SurveyController extends Controller
     {
         // Buscar la encuesta por public_slug (ofuscado)
         $survey = Survey::where('public_slug', $publicSlug)
-            ->with('questions.options')
+            ->with(['questions.options', 'group'])
             ->firstOrFail();
+
+        // Si la encuesta pertenece a un grupo, redirigir a la URL con el grupo
+        if ($survey->survey_group_id && $survey->group && $survey->group->slug) {
+            $queryParams = $request->query(); // Mantener todos los parámetros de la URL (token, etc.)
+            return redirect()->route('surveys.show.group', [
+                'groupSlug' => $survey->group->slug,
+                'publicSlug' => $publicSlug
+            ] + $queryParams);
+        }
 
         // Incrementar contador de visitas usando sesión para evitar múltiples conteos
         $sessionKey = 'survey_viewed_' . $survey->id;
@@ -77,6 +86,76 @@ class SurveyController extends Controller
         }
 
         // Pasar el token a la vista
+        $token = $tokenString;
+
+        return view('surveys.show', compact('survey', 'hasVoted', 'token'));
+    }
+
+    /**
+     * Mostrar encuesta usando slug del grupo
+     */
+    public function showWithGroup(Request $request, $groupSlug, $publicSlug)
+    {
+        // Buscar el grupo por slug
+        $group = \App\Models\SurveyGroup::where('slug', $groupSlug)->firstOrFail();
+
+        // Buscar la encuesta por public_slug y verificar que pertenece al grupo
+        $survey = Survey::where('public_slug', $publicSlug)
+            ->where('survey_group_id', $group->id)
+            ->with('questions.options')
+            ->firstOrFail();
+
+        // Incrementar contador de visitas usando sesión para evitar múltiples conteos
+        $sessionKey = 'survey_viewed_' . $survey->id;
+        if (!session()->has($sessionKey)) {
+            $survey->incrementViews();
+            session()->put($sessionKey, true);
+        }
+
+        // Si la encuesta está terminada, redirigir a resultados finales
+        if ($survey->is_finished) {
+            return redirect()->route('surveys.finished.group', [$groupSlug, $survey->public_slug]);
+        }
+
+        // Si la encuesta no está activa, mostrar mensaje
+        if (!$survey->is_active) {
+            return view('surveys.inactive', compact('survey'));
+        }
+
+        // OBLIGAR EL USO DE TOKENS: Si no hay token en la URL, redirigir a /t/{groupSlug}/{publicSlug}
+        $tokenString = $request->query('token');
+        if (!$tokenString) {
+            return redirect()->route('token.redirect.group', [$groupSlug, $publicSlug]);
+        }
+
+        // Verificar que el token existe y obtener su estado
+        $tokenRecord = SurveyToken::where('token', $tokenString)
+            ->where('survey_id', $survey->id)
+            ->first();
+
+        // Verificar si el token ya fue usado
+        $hasVoted = false;
+        if ($tokenRecord && $tokenRecord->used) {
+            $hasVoted = true;
+        }
+
+        // Generar fingerprint del dispositivo actual (mismo que en el vote)
+        $fingerprint = $request->input('fingerprint', session('fingerprint', ''));
+
+        // VALIDACIÓN DE GRUPO: Si el grupo tiene restricción de votación
+        if ($group->restrict_voting && $fingerprint) {
+            $votedSurvey = $group->getVotedSurvey($fingerprint);
+
+            if ($votedSurvey && $votedSurvey->id !== $survey->id) {
+                // Ya votó en otra encuesta del grupo - Mostrar mensaje de restricción
+                return view('surveys.group-restricted', [
+                    'survey' => $survey,
+                    'group' => $group,
+                    'votedSurvey' => $votedSurvey
+                ]);
+            }
+        }
+
         $token = $tokenString;
 
         return view('surveys.show', compact('survey', 'hasVoted', 'token'));

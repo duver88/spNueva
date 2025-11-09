@@ -21,6 +21,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Ruta de generación automática de tokens (/t/)
 Route::get('/t/{publicSlug}', [TokenRedirectController::class, 'redirect'])->name('token.redirect');
+Route::get('/t/{groupSlug}/{publicSlug}', [TokenRedirectController::class, 'redirectWithGroup'])->name('token.redirect.group');
 
 // Rutas públicas de encuestas (usando public_slug ofuscado)
 Route::get('/survey/{publicSlug}', [SurveyController::class, 'show'])->name('surveys.show');
@@ -69,3 +70,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/survey-groups/{group}/surveys/{survey}', [SurveyGroupController::class, 'removeSurvey'])->name('survey-groups.remove-survey');
 });
 
+// Rutas públicas de encuestas con grupo (usando group_slug/public_slug)
+// IMPORTANTE: Estas rutas DEBEN ir al final porque capturan cualquier patrón /{palabra}/{palabra}
+Route::get('/{groupSlug}/{publicSlug}', [SurveyController::class, 'showWithGroup'])->name('surveys.show.group');
+Route::post('/{groupSlug}/{publicSlug}/vote', [SurveyController::class, 'vote'])
+    ->middleware('prevent.duplicate.vote')
+    ->name('surveys.vote.group');
+Route::get('/{groupSlug}/{publicSlug}/thanks', [SurveyController::class, 'thanks'])->name('surveys.thanks.group');
+Route::get('/{groupSlug}/{publicSlug}/finished', [SurveyController::class, 'finished'])->name('surveys.finished.group');
+Route::match(['get', 'post'], '/{groupSlug}/{publicSlug}/check-vote', [SurveyController::class, 'checkVote'])->name('surveys.check-vote.group');

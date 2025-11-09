@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class SurveyGroup extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'restrict_voting',
     ];
@@ -16,6 +18,43 @@ class SurveyGroup extends Model
     protected $casts = [
         'restrict_voting' => 'boolean',
     ];
+
+    /**
+     * Boot del modelo para generar slug automáticamente
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($group) {
+            if (empty($group->slug)) {
+                $group->slug = Str::slug($group->name);
+
+                // Verificar si ya existe y agregar número si es necesario
+                $originalSlug = $group->slug;
+                $count = 1;
+                while (static::where('slug', $group->slug)->exists()) {
+                    $group->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+
+        static::updating(function ($group) {
+            // Siempre actualizar el slug cuando cambie el nombre
+            if ($group->isDirty('name')) {
+                $group->slug = Str::slug($group->name);
+
+                // Verificar si ya existe y agregar número si es necesario
+                $originalSlug = $group->slug;
+                $count = 1;
+                while (static::where('slug', $group->slug)->where('id', '!=', $group->id)->exists()) {
+                    $group->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+    }
 
     /**
      * Obtener todas las encuestas de este grupo

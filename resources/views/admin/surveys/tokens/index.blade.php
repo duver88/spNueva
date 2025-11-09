@@ -96,14 +96,22 @@
                             <i class="bi bi-link-45deg"></i> URL Básica (tracking orgánico)
                         </label>
                         <div class="input-group">
+                            @php
+                                $baseUrl = $survey->survey_group_id && $survey->group && $survey->group->slug
+                                    ? url('/t/' . $survey->group->slug . '/' . $survey->public_slug)
+                                    : url('/t/' . $survey->public_slug);
+                            @endphp
                             <input type="text" class="form-control" readonly
-                                   value="{{ url('/t/' . $survey->public_slug) }}"
+                                   value="{{ $baseUrl }}"
                                    id="url-basic">
                             <button class="btn btn-outline-success" type="button"
-                                    onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug) }}', 'url-basic-btn')">
+                                    onclick="copyToClipboard('{{ $baseUrl }}', 'url-basic-btn')">
                                 <i class="bi bi-clipboard"></i> <span id="url-basic-btn">Copiar</span>
                             </button>
                         </div>
+                        @if($survey->survey_group_id && $survey->group)
+                            <small class="text-muted"><i class="bi bi-collection"></i> Grupo: <strong>{{ $survey->group->name }}</strong></small>
+                        @endif
                     </div>
 
                     <!-- URL para Facebook Ads -->
@@ -112,11 +120,14 @@
                             <i class="bi bi-facebook"></i> URL para Facebook Ads
                         </label>
                         <div class="input-group">
+                            @php
+                                $facebookUrl = $baseUrl . '?source=facebook-ads';
+                            @endphp
                             <input type="text" class="form-control" readonly
-                                   value="{{ url('/t/' . $survey->public_slug) }}?source=facebook-ads"
+                                   value="{{ $facebookUrl }}"
                                    id="url-facebook">
                             <button class="btn btn-outline-primary" type="button"
-                                    onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug) }}?source=facebook-ads', 'url-facebook-btn')">
+                                    onclick="copyToClipboard('{{ $facebookUrl }}', 'url-facebook-btn')">
                                 <i class="bi bi-clipboard"></i> <span id="url-facebook-btn">Copiar</span>
                             </button>
                         </div>
@@ -128,11 +139,14 @@
                             <i class="bi bi-instagram"></i> URL para Instagram Ads
                         </label>
                         <div class="input-group">
+                            @php
+                                $instagramUrl = $baseUrl . '?source=instagram-ads';
+                            @endphp
                             <input type="text" class="form-control" readonly
-                                   value="{{ url('/t/' . $survey->public_slug) }}?source=instagram-ads"
+                                   value="{{ $instagramUrl }}"
                                    id="url-instagram">
                             <button class="btn btn-outline-danger" type="button"
-                                    onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug) }}?source=instagram-ads', 'url-instagram-btn')">
+                                    onclick="copyToClipboard('{{ $instagramUrl }}', 'url-instagram-btn')">
                                 <i class="bi bi-clipboard"></i> <span id="url-instagram-btn">Copiar</span>
                             </button>
                         </div>
@@ -144,11 +158,14 @@
                             <i class="bi bi-tag-fill"></i> URL con Campaña Personalizada
                         </label>
                         <div class="input-group">
+                            @php
+                                $campaignUrl = $baseUrl . '?source=facebook-ads&campaign_id=mi-campana-2025';
+                            @endphp
                             <input type="text" class="form-control" readonly
-                                   value="{{ url('/t/' . $survey->public_slug) }}?source=facebook-ads&campaign_id=mi-campana-2025"
+                                   value="{{ $campaignUrl }}"
                                    id="url-campaign">
                             <button class="btn btn-outline-info" type="button"
-                                    onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug) }}?source=facebook-ads&campaign_id=mi-campana-2025', 'url-campaign-btn')">
+                                    onclick="copyToClipboard('{{ $campaignUrl }}', 'url-campaign-btn')">
                                 <i class="bi bi-clipboard"></i> <span id="url-campaign-btn">Copiar</span>
                             </button>
                         </div>
@@ -329,7 +346,12 @@
                                     <td>
                                         <code class="text-muted small">{{ Str::limit($token->token, 20) }}</code>
                                         @if($token->status === 'pending')
-                                            <button class="btn btn-sm btn-link p-0 ms-2" onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug . '?token=' . $token->token) }}')" title="Copiar URL">
+                                            @php
+                                                $individualTokenUrl = $survey->survey_group_id && $survey->group && $survey->group->slug
+                                                    ? url('/t/' . $survey->group->slug . '/' . $survey->public_slug . '?token=' . $token->token)
+                                                    : url('/t/' . $survey->public_slug . '?token=' . $token->token);
+                                            @endphp
+                                            <button class="btn btn-sm btn-link p-0 ms-2" onclick="copyToClipboard('{{ $individualTokenUrl }}')" title="Copiar URL">
                                                 <i class="bi bi-clipboard"></i>
                                             </button>
                                         @endif

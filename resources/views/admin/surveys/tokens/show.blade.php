@@ -35,11 +35,19 @@
                 <div class="mb-3">
                     <label class="text-muted small mb-1">URL Completa</label>
                     <div class="d-flex align-items-center">
-                        <input type="text" class="form-control form-control-sm" readonly value="{{ url('/t/' . $survey->public_slug . '?token=' . $token->token) }}">
-                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('{{ url('/t/' . $survey->public_slug . '?token=' . $token->token) }}')">
+                        @php
+                            $tokenUrl = $survey->survey_group_id && $survey->group && $survey->group->slug
+                                ? url('/t/' . $survey->group->slug . '/' . $survey->public_slug . '?token=' . $token->token)
+                                : url('/t/' . $survey->public_slug . '?token=' . $token->token);
+                        @endphp
+                        <input type="text" class="form-control form-control-sm" readonly value="{{ $tokenUrl }}">
+                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('{{ $tokenUrl }}')">
                             <i class="bi bi-clipboard"></i> Copiar
                         </button>
                     </div>
+                    @if($survey->survey_group_id && $survey->group)
+                        <small class="text-muted"><i class="bi bi-collection"></i> Grupo: {{ $survey->group->name }}</small>
+                    @endif
                 </div>
             </div>
             <div class="col-md-6">
