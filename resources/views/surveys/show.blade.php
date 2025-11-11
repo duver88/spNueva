@@ -10,7 +10,7 @@
 @section('og_description', $survey->description ?? 'Participa en esta encuesta y comparte tu opinión')
 
 @section('content')
-<div class="min-vh-100" style="background: #1a1a1a; padding: 3rem 0;">
+<div class="min-vh-100 survey-main-container" style="background: #1a1a1a; padding: 3rem 0;">
     <div class="container" style="max-width: 740px;">
 
         @if(session('error'))
@@ -130,9 +130,9 @@
                     </div>
                 @endforeach
 
-                <div class="form-card" style="padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div class="form-card submit-card" style="padding: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                     <button type="submit" class="submit-btn">Enviar</button>
-                    <div style="font-size: 12px; color: #9aa0a6;">
+                    <div class="protected-text" style="font-size: 12px; color: #9aa0a6;">
                         <i class="bi bi-shield-lock-fill"></i> Respuestas protegidas
                     </div>
                 </div>
@@ -523,12 +523,129 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .options-grid {
-        grid-template-columns: 1fr;
+    .survey-main-container {
+        padding: 2rem 0 !important;
     }
 
-    .form-card > div {
+    .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    .form-card {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .form-card > div[style*="padding: 32px"] {
+        padding: 24px 20px 20px 20px !important;
+    }
+
+    .form-card > div[style*="padding: 24px"] {
+        padding: 20px !important;
+    }
+
+    .form-card h1 {
+        font-size: 24px !important;
+    }
+
+    .form-card h3 {
+        font-size: 15px !important;
+    }
+
+    .form-card p {
+        font-size: 13px !important;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .radio-option,
+    .checkbox-option {
+        padding: 10px 0;
+    }
+
+    .radio-circle,
+    .checkbox-box {
+        width: 18px;
+        height: 18px;
+    }
+
+    .radio-label,
+    .checkbox-label {
+        font-size: 13px;
+    }
+
+    .image-option {
+        padding: 12px;
+    }
+
+    .option-image-wrapper {
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    .option-label {
+        font-size: 13px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px 24px;
+        font-size: 15px;
+    }
+
+    .submit-card {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .protected-text {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .survey-main-container {
+        padding: 1.5rem 0 !important;
+    }
+
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .form-card > div[style*="padding: 32px"] {
+        padding: 20px 16px 16px 16px !important;
+    }
+
+    .form-card > div[style*="padding: 24px"] {
         padding: 16px !important;
+    }
+
+    .form-card h1 {
+        font-size: 22px !important;
+        line-height: 1.3 !important;
+    }
+
+    .form-card h3 {
+        font-size: 14px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .options-grid {
+        gap: 10px;
+    }
+
+    .image-option {
+        padding: 10px;
+    }
+
+    .option-image-wrapper {
+        height: 70px;
     }
 }
 </style>

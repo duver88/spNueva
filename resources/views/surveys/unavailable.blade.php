@@ -63,12 +63,47 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .message-card > div {
-        padding: 48px 24px !important;
+    .container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
-    h1 {
+    .message-card > div {
+        padding: 48px 20px !important;
+    }
+
+    .message-card h1 {
         font-size: 24px !important;
+    }
+
+    .message-card p {
+        font-size: 13px !important;
+    }
+
+    .message-card svg {
+        width: 64px !important;
+        height: 64px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .message-card > div {
+        padding: 40px 16px !important;
+    }
+
+    .message-card h1 {
+        font-size: 20px !important;
+        line-height: 1.3 !important;
+    }
+
+    .message-card svg {
+        width: 56px !important;
+        height: 56px !important;
     }
 }
 </style>
