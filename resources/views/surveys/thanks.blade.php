@@ -24,21 +24,19 @@
     ];
 @endphp
 
-<div class="min-vh-100 position-relative thanks-container" style="background: #0a0a0a;">
-    <!-- Efecto difuminado de fondo - Rojo y Negro elegante -->
+<div class="min-vh-100 position-relative thanks-container" style="background: linear-gradient(145deg, #000000 0%, #1a1a1a 50%, #0d0d0d 100%);">
+    <!-- Efecto de estrellas y formas geométricas - Amarillo y Negro -->
     <div class="position-absolute w-100 h-100" style="overflow: hidden; z-index: 0; top: 0; left: 0;">
-        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(220, 20, 60, 0.25) 0%, transparent 70%); filter: blur(80px);"></div>
-        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 650px; height: 650px; background: radial-gradient(circle, rgba(139, 0, 0, 0.3) 0%, transparent 70%); filter: blur(90px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, transparent 70%); filter: blur(70px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 50%; left: 20%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(178, 34, 34, 0.18) 0%, transparent 70%); filter: blur(65px);"></div>
-        <div class="blur-circle" style="position: absolute; bottom: 30%; left: 40%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%); filter: blur(60px);"></div>
+        <div class="star-shape" style="position: absolute; top: 10%; right: 15%; width: 350px; height: 350px; background: radial-gradient(circle, rgba(253, 215, 26, 0.2) 0%, transparent 70%); clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);"></div>
+        <div class="hex-shape" style="position: absolute; bottom: 15%; left: 10%; width: 400px; height: 400px; background: linear-gradient(135deg, rgba(253, 215, 26, 0.15), transparent); clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);"></div>
+        <div class="circle-shape" style="position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; background: rgba(253, 215, 26, 0.08); border-radius: 50%; transform: translate(-50%, -50%);"></div>
     </div>
 
     <div class="container position-relative" style="z-index: 1; padding: 0;">
         <!-- Tarjeta única con todo el contenido -->
         <div class="row justify-content-center g-0">
             <div class="col-12 col-lg-10 col-xl-9">
-                <div class="card border-0 overflow-hidden shadow-lg success-card" style="background: #ffffff; box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3), 0 0 80px rgba(255, 0, 0, 0.1); border: 2px solid rgba(220, 20, 60, 0.3);">
+                <div class="card border-0 overflow-hidden shadow-lg success-card" style="background: #000000; box-shadow: 0 25px 70px rgba(253, 215, 26, 0.4), 0 0 100px rgba(253, 215, 26, 0.2); border: 3px solid #fdd71a;">
                     <!-- Banner de la encuesta (si existe) -->
                     @if($survey->banner)
                         <div class="banner-wrapper">
@@ -52,11 +50,11 @@
                         <!-- Título de la encuesta debajo del banner -->
                         @if($survey->banner)
                             <div class="text-center thanks-survey-title">
-                                <h3 class="fw-bold mb-2" style="color: #DC143C;">
-                                    <i class="bi bi-clipboard-data"></i> {{ $survey->title }}
+                                <h3 class="fw-bold mb-2" style="color: #fdd71a;">
+                                    <i class="bi bi-star-fill"></i> {{ $survey->title }}
                                 </h3>
                                 @if($survey->description)
-                                    <p class="text-muted mb-0">{{ $survey->description }}</p>
+                                    <p class="mb-0" style="color: #ffffff;">{{ $survey->description }}</p>
                                 @endif
                             </div>
                         @endif
@@ -65,20 +63,20 @@
                         <div class="text-center thanks-success-section">
                             <!-- Ícono de éxito animado -->
                             <div class="mb-4 success-animation">
-                                <i class="bi bi-check-circle-fill" style="font-size: 4rem; color: #DC143C;"></i>
+                                <i class="bi bi-patch-check-fill" style="font-size: 4rem; color: #fdd71a; filter: drop-shadow(0 0 20px rgba(253, 215, 26, 0.7));"></i>
                             </div>
 
                             <!-- Mensaje principal -->
-                            <h1 class="thanks-main-title">¡Gracias por participar!</h1>
-                            <p class="thanks-subtitle">Tu voto ha sido registrado exitosamente</p>
+                            <h1 class="thanks-main-title">¡VOTO REGISTRADO!</h1>
+                            <p class="thanks-subtitle">Tu participación ha sido confirmada exitosamente</p>
 
                             @if(!$survey->banner)
-                                <hr class="my-4">
-                                <h5 class="fw-semibold text-dark mb-2">
-                                    <i class="bi bi-clipboard-data text-primary"></i> {{ $survey->title }}
+                                <hr class="my-4" style="border-color: #fdd71a; opacity: 0.3;">
+                                <h5 class="fw-semibold mb-2" style="color: #fdd71a;">
+                                    <i class="bi bi-star-fill"></i> {{ $survey->title }}
                                 </h5>
                                 @if($survey->description)
-                                    <p class="text-muted small mb-0">{{ $survey->description }}</p>
+                                    <p class="small mb-0" style="color: #ffffff;">{{ $survey->description }}</p>
                                 @endif
                             @endif
                         </div>
@@ -86,8 +84,8 @@
                         @if($showResults)
                         <!-- Resultados en Tiempo Real -->
                         <div class="results-section">
-                            <h3 class="fw-bold text-dark mb-4 text-center">
-                                <i class="bi bi-bar-chart-fill text-primary"></i> Resultados en Tiempo Real
+                            <h3 class="fw-bold mb-4 text-center" style="color: #fdd71a;">
+                                <i class="bi bi-graph-up-arrow"></i> RESULTADOS EN VIVO
                             </h3>
 
                         @foreach($statistics as $index => $stat)
@@ -199,10 +197,10 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="card-footer bg-light text-center py-3 border-0">
-                        <small class="text-muted">
-                            <i class="bi bi-calendar-check"></i>
-                            Votación registrada el {{ now()->format('d/m/Y \a \l\a\s H:i') }}
+                    <div class="card-footer text-center py-3 border-0" style="background: #fdd71a; border-top: 3px solid #000000;">
+                        <small style="color: #000000; font-weight: 600;">
+                            <i class="bi bi-calendar-check-fill"></i>
+                            Registrado: {{ now()->format('d/m/Y H:i') }}
                         </small>
                     </div>
                 </div>
@@ -211,8 +209,8 @@
 
         <!-- Mensaje adicional -->
         <div class="text-center mt-4">
-            <p class="text-muted">
-                <i class="bi bi-info-circle"></i> Los resultados se actualizan en tiempo real
+            <p style="color: #fdd71a;">
+                <i class="bi bi-lightning-fill"></i> Actualizando resultados automáticamente
             </p>
         </div>
     </div>
@@ -227,7 +225,7 @@
     line-height: 0;
     margin: 0;
     padding: 0;
-    border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+    border-bottom: 4px solid #fdd71a;
     animation: fadeIn 0.8s ease-out;
 }
 
@@ -235,7 +233,8 @@
     width: 100%;
     height: auto;
     display: block;
-    opacity: 0.9;
+    opacity: 1;
+    filter: brightness(1.1) contrast(1.1);
 }
 
 @keyframes fadeIn {
@@ -430,25 +429,28 @@
 .thanks-survey-title {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(220, 20, 60, 0.2);
+    border-bottom: 2px solid rgba(253, 215, 26, 0.3);
 }
 
 .thanks-success-section {
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(220, 20, 60, 0.2);
+    border-bottom: 2px solid rgba(253, 215, 26, 0.3);
 }
 
 .thanks-main-title {
     font-size: 2.25rem;
     font-weight: bold;
-    color: #1a1a1a;
+    color: #fdd71a;
     margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px rgba(253, 215, 26, 0.6);
 }
 
 .thanks-subtitle {
     font-size: 1.25rem;
-    color: #6b7280;
+    color: #ffffff;
     margin-bottom: 0;
 }
 

@@ -3,67 +3,51 @@
 @section('title', 'Encuesta No Disponible')
 
 @section('content')
-<div class="min-vh-100 d-flex align-items-center position-relative" style="background: linear-gradient(135deg, #fff9e6 0%, #e6f2ff 50%, #ffe6e6 100%);">
-    <!-- Efecto difuminado de fondo -->
-    <div class="position-absolute w-100 h-100" style="overflow: hidden; z-index: 0;">
-        <div class="blur-circle" style="position: absolute; top: -10%; left: -5%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255, 209, 0, 0.2) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; bottom: -15%; right: -5%; width: 550px; height: 550px; background: radial-gradient(circle, rgba(206, 17, 38, 0.15) 0%, transparent 70%); filter: blur(60px);"></div>
-        <div class="blur-circle" style="position: absolute; top: 30%; right: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0, 56, 168, 0.15) 0%, transparent 70%); filter: blur(50px);"></div>
-    </div>
+<div class="min-vh-100 d-flex align-items-center" style="background: #1a1a1a; padding: 3rem 0;">
+    <div class="container" style="max-width: 740px;">
 
-    <div class="container py-5 position-relative" style="z-index: 1;">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <div class="card border-0 rounded-4 overflow-hidden" style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
-                    <div class="card-body p-5 text-center">
-                        <!-- Icono principal -->
-                        <div class="mb-4">
-                            <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 6rem;"></i>
-                        </div>
+        <!-- Card de mensaje -->
+        <div class="message-card">
+            <div style="text-align: center; padding: 64px 24px;">
+                <!-- Icono -->
+                <div style="margin-bottom: 32px;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                        <circle cx="12" cy="12" r="10" stroke="#fdd71a" stroke-width="2"/>
+                        <path d="M15 9L9 15M9 9L15 15" stroke="#fdd71a" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
 
-                        <!-- Título -->
-                        <h1 class="display-5 fw-bold text-dark mb-3">
-                            Encuesta No Disponible
-                        </h1>
+                <!-- Título -->
+                <h1 style="font-size: 28px; font-weight: 400; color: #ffffff; margin: 0 0 16px 0; line-height: 1.3;">
+                    No se puede acceder a la encuesta
+                </h1>
 
-                        <!-- Descripción -->
-                        <p class="lead text-muted mb-4">
-                            Esta encuesta ha alcanzado su límite de participantes.
-                        </p>
+                <!-- Descripción -->
+                <p style="font-size: 14px; color: #9aa0a6; margin: 0 0 24px 0; line-height: 1.6;">
+                    Esta encuesta ha alcanzado su límite de participantes o ya no está disponible.
+                </p>
 
-                        <!-- Información adicional -->
-                        <div class="alert alert-warning bg-warning bg-opacity-10 border-warning mb-4">
-                            <i class="bi bi-info-circle-fill"></i>
-                            <strong>No hay cupos disponibles en este momento.</strong>
-                        </div>
+                <!-- Divider -->
+                <div style="width: 100%; height: 1px; background: #3c4043; margin: 32px 0;"></div>
 
-                        <p class="text-muted mb-4">
-                            Te agradecemos tu interés en participar. Lamentablemente, esta encuesta ya no está aceptando nuevas respuestas.
-                        </p>
-
-                        <!-- Mensaje de contacto (opcional) -->
-                        <div class="mt-5 pt-4 border-top">
-                            <p class="text-muted small mb-0">
-                                <i class="bi bi-envelope"></i> Si tienes alguna pregunta, por favor contacta al administrador de la encuesta.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="card-footer bg-light text-center py-3">
-                        <small class="text-muted">
-                            <i class="bi bi-clipboard-data"></i> Sistema de Encuestas
-                        </small>
-                    </div>
+                <!-- Info adicional -->
+                <div style="font-size: 12px; color: #9aa0a6;">
+                    <i class="bi bi-info-circle"></i> Si crees que esto es un error, contacta al administrador
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 <style>
-.card {
-    animation: fadeIn 0.5s ease-in;
+.message-card {
+    background: #2d2d2d;
+    border: 1px solid #3c4043;
+    border-radius: 8px;
+    border-top: 10px solid #fdd71a;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -79,20 +63,12 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .display-5 {
-        font-size: 2rem;
+    .message-card > div {
+        padding: 48px 24px !important;
     }
 
-    .lead {
-        font-size: 1rem;
-    }
-
-    .card-body {
-        padding: 2rem 1.5rem !important;
-    }
-
-    .bi-exclamation-triangle-fill {
-        font-size: 4rem !important;
+    h1 {
+        font-size: 24px !important;
     }
 }
 </style>
