@@ -489,7 +489,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .option-image-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #1a1a1a;
 }
 
 .option-label {
@@ -583,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .option-image-wrapper {
-        height: 120px;
+        height: 160px;
         margin-bottom: 10px;
     }
 
@@ -645,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .option-image-wrapper {
-        height: 100px;
+        height: 140px;
     }
 }
 </style>
