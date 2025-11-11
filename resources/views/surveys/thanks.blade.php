@@ -39,7 +39,7 @@
                 <div class="card border-0 overflow-hidden shadow-lg success-card" style="background: #000000; box-shadow: 0 25px 70px rgba(253, 215, 26, 0.4), 0 0 100px rgba(253, 215, 26, 0.2); border: 3px solid #fdd71a;">
                     <!-- Banner de la encuesta (si existe) -->
                     @if($survey->banner)
-                        <div class="banner-wrapper">
+                        <div class="banner-wrapper" style="aspect-ratio: 856/200;">
                             <img src="{{ asset('storage/' . $survey->banner) }}"
                                  alt="Banner de {{ $survey->title }}"
                                  class="banner-img">

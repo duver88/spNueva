@@ -22,8 +22,8 @@
         <!-- Header Card -->
         <div class="form-card" style="border-top: 10px solid #fdd71a; margin-bottom: 12px;">
             @if($survey->banner)
-                <div style="width: 100%; height: 200px; overflow: hidden; border-radius: 8px 8px 0 0;">
-                    <img src="{{ asset('storage/' . $survey->banner) }}" alt="{{ $survey->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="width: 100%; height: auto; overflow: hidden; border-radius: 8px 8px 0 0; aspect-ratio: 856/200;">
+                    <img src="{{ asset('storage/' . $survey->banner) }}" alt="{{ $survey->title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                 </div>
             @endif
             <div style="padding: 32px 24px 24px 24px;">
