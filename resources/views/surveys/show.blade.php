@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .option-image-wrapper {
-        height: 80px;
+        height: 120px;
         margin-bottom: 10px;
     }
 
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     .option-image-wrapper {
-        height: 70px;
+        height: 100px;
     }
 }
 </style>
