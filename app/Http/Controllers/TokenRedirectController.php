@@ -65,20 +65,27 @@ class TokenRedirectController extends Controller
         }
 
         // ========================================================================
-        // Sistema de tokens: Siempre asignar un nuevo token disponible
-        // NO verificar si el usuario ya votó (permitir múltiples votos por IP/dispositivo)
+        // DELAY CON VISTA INTERMEDIA
+        // Mostrar página intermedia que cargará el token después de 3 segundos
+        // Esto evita que Facebook/bots consuman tokens al hacer scraping rápido
         // ========================================================================
 
-        // ========================================================================
-        // DELAY DE 3 SEGUNDOS antes de asignar token
-        // Esto ayuda a evitar que bots rápidos consuman tokens
-        // Los usuarios reales esperarán sin problema
-        // ========================================================================
-        sleep(3);
+        // Mostrar vista intermedia con delay de 3 segundos
+        // Esta vista mostrará la encuesta sin token y luego redirigirá con token
+        return view('surveys.token-loading', [
+            'survey' => $survey,
+            'publicSlug' => $publicSlug,
+            'delay' => 3000 // 3 segundos en milisegundos
+        ]);
+    }
 
-        // ========================================================================
-        // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
-        // ========================================================================
+    /**
+     * API endpoint para asignar token (llamado por JavaScript después del delay)
+     */
+    public function assignToken(Request $request, string $publicSlug)
+    {
+        // Buscar encuesta por public_slug (ofuscado)
+        $survey = Survey::where('public_slug', $publicSlug)->firstOrFail();
 
         // Intentar asignar un token disponible del pool (con bloqueo para evitar condiciones de carrera)
         DB::beginTransaction();
@@ -90,16 +97,16 @@ class TokenRedirectController extends Controller
                 ->lockForUpdate()
                 ->first();
 
-            // Si NO hay tokens disponibles, mostrar página de encuesta no disponible
+            // Si NO hay tokens disponibles
             if (!$token) {
                 DB::commit();
-
-                // Redirigir a vista dedicada de encuesta no disponible
-                return view('surveys.unavailable');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No hay tokens disponibles'
+                ], 404);
             }
 
-            // OPCIONAL: Actualizar información del token (source, campaign_id) si se proporcionan
-            // Esto permite rastrear de dónde viene cada visitante
+            // Actualizar información del token
             $source = $request->query('source');
             $campaignId = $request->query('campaign_id');
 
@@ -115,19 +122,22 @@ class TokenRedirectController extends Controller
 
             DB::commit();
 
-            // Redirigir a la encuesta con el token asignado del pool
-            return redirect()->route('surveys.show', [
-                'publicSlug' => $publicSlug,
-                'token' => $token->token
+            // Retornar el token asignado
+            return response()->json([
+                'success' => true,
+                'token' => $token->token,
+                'redirect_url' => route('surveys.show', [
+                    'publicSlug' => $publicSlug,
+                    'token' => $token->token
+                ])
             ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            // En caso de error, redirigir sin token
-            return redirect()->route('surveys.show', [
-                'publicSlug' => $publicSlug
-            ])->with('error', 'Ocurrió un error al procesar tu solicitud.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al asignar token'
+            ], 500);
         }
     }
 
@@ -187,68 +197,18 @@ class TokenRedirectController extends Controller
         }
 
         // ========================================================================
-        // Sistema de tokens: Siempre asignar un nuevo token disponible
-        // NO verificar si el usuario ya votó (permitir múltiples votos por IP/dispositivo)
+        // DELAY CON VISTA INTERMEDIA
+        // Mostrar página intermedia que cargará el token después de 3 segundos
+        // Esto evita que Facebook/bots consuman tokens al hacer scraping rápido
         // ========================================================================
 
-        // ========================================================================
-        // DELAY DE 3 SEGUNDOS antes de asignar token
-        // Esto ayuda a evitar que bots rápidos consuman tokens
-        // Los usuarios reales esperarán sin problema
-        // ========================================================================
-        sleep(3);
-
-        // ========================================================================
-        // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
-        // ========================================================================
-
-        DB::beginTransaction();
-
-        try {
-            // Buscar un token pendiente disponible
-            $token = SurveyToken::where('survey_id', $survey->id)
-                ->where('status', 'pending')
-                ->lockForUpdate()
-                ->first();
-
-            // Si NO hay tokens disponibles, mostrar página de encuesta no disponible
-            if (!$token) {
-                DB::commit();
-                return view('surveys.unavailable');
-            }
-
-            // Actualizar información del token
-            $source = $request->query('source');
-            $campaignId = $request->query('campaign_id');
-
-            if ($source && $token->source === 'manual') {
-                $token->source = $source;
-            }
-            if ($campaignId && !$token->campaign_id) {
-                $token->campaign_id = $campaignId;
-            }
-
-            $token->user_agent = $request->userAgent();
-            $token->save();
-
-            DB::commit();
-
-            // Redirigir a la encuesta con el token asignado del pool
-            return redirect()->route('surveys.show.group', [
-                'groupSlug' => $groupSlug,
-                'publicSlug' => $publicSlug,
-                'token' => $token->token
-            ]);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            // En caso de error, redirigir sin token
-            return redirect()->route('surveys.show.group', [
-                'groupSlug' => $groupSlug,
-                'publicSlug' => $publicSlug
-            ])->with('error', 'Ocurrió un error al procesar tu solicitud.');
-        }
+        // Mostrar vista intermedia con delay de 3 segundos
+        return view('surveys.token-loading', [
+            'survey' => $survey,
+            'groupSlug' => $groupSlug,
+            'publicSlug' => $publicSlug,
+            'delay' => 3000 // 3 segundos en milisegundos
+        ]);
     }
 
     /**
