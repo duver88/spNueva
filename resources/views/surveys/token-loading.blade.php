@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // En caso de error, redirigir sin token
             window.location.href = '{{ route('surveys.show', $publicSlug) }}';
         });
-    }, {{ $delay ?? 5000 }});
+    }, {{ $delay ?? 1000 }});
 });
 </script>
 @endsection

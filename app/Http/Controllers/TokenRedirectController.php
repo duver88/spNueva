@@ -90,7 +90,7 @@ class TokenRedirectController extends Controller
         return view('surveys.token-loading', [
             'survey' => $survey,
             'publicSlug' => $publicSlug,
-            'delay' => 5000 // 5 segundos en milisegundos
+            'delay' => 1000 // 5 segundos en milisegundos
         ]);
     }
 
@@ -237,7 +237,7 @@ class TokenRedirectController extends Controller
             'survey' => $survey,
             'groupSlug' => $groupSlug,
             'publicSlug' => $publicSlug,
-            'delay' => 5000 // 5 segundos en milisegundos
+            'delay' => 1000 // 5 segundos en milisegundos
         ]);
     }
 
