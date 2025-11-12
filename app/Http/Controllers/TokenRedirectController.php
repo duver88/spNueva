@@ -14,6 +14,33 @@ class TokenRedirectController extends Controller
         // Buscar encuesta por public_slug (ofuscado)
         $survey = Survey::where('public_slug', $publicSlug)->with('group')->firstOrFail();
 
+        // ========================================================================
+        // DETECTAR BOTS DE REDES SOCIALES (Facebook, Twitter, etc.)
+        // Estos bots pre-cargan URLs para mostrar previews, no asignar tokens
+        // ========================================================================
+        $userAgent = $request->userAgent();
+        $socialBotPatterns = [
+            'facebookexternalhit',  // Bot de Facebook para previews
+            'Facebot',              // Otro bot de Facebook
+            'Twitterbot',           // Bot de Twitter
+            'LinkedInBot',          // Bot de LinkedIn
+            'WhatsApp',             // Bot de WhatsApp
+            'TelegramBot',          // Bot de Telegram
+            'Slackbot',             // Bot de Slack
+            'Discordbot',           // Bot de Discord
+            'ia_archiver',          // Internet Archive
+            'meta-externalagent',   // Meta (Facebook) external agent
+        ];
+
+        foreach ($socialBotPatterns as $pattern) {
+            if (stripos($userAgent, $pattern) !== false) {
+                // Es un bot de red social haciendo preview - redirigir sin asignar token
+                return redirect()->route('surveys.show', [
+                    'publicSlug' => $publicSlug
+                ]);
+            }
+        }
+
         // Si la encuesta pertenece a un grupo, redirigir a la ruta con grupo
         if ($survey->survey_group_id && $survey->group && $survey->group->slug) {
             $queryParams = $request->query(); // Mantener todos los parámetros (token, source, etc.)
@@ -38,55 +65,12 @@ class TokenRedirectController extends Controller
         }
 
         // ========================================================================
-        // DETECCIÓN AVANZADA: Buscar si este dispositivo ya votó en ESTA encuesta
-        // Comparar por características de hardware (User-Agent, etc.)
+        // Sistema de tokens: Siempre asignar un nuevo token disponible
+        // NO verificar si el usuario ya votó (permitir múltiples votos por IP/dispositivo)
         // ========================================================================
-        $fingerprint = $request->cookie('survey_fingerprint');
-
-        // Primero verificar por fingerprint si existe
-        if ($fingerprint) {
-            $previousVote = \App\Models\Vote::where('survey_id', $survey->id)
-                ->where('fingerprint', $fingerprint)
-                ->where('is_valid', true)
-                ->first();
-
-            if ($previousVote && $previousVote->survey_token_id) {
-                // Ya votó - Reusar el MISMO token
-                $usedToken = \App\Models\SurveyToken::find($previousVote->survey_token_id);
-
-                if ($usedToken) {
-                    return redirect()->route('surveys.show', [
-                        'publicSlug' => $publicSlug,
-                        'token' => $usedToken->token
-                    ]);
-                }
-            }
-        }
-
-        // Si no hay fingerprint, buscar por User-Agent (detección de dispositivo)
-        $userAgent = $request->userAgent();
-        if ($userAgent) {
-            $previousVote = \App\Models\Vote::where('survey_id', $survey->id)
-                ->where('is_valid', true)
-                ->where('user_agent', 'LIKE', '%' . substr($userAgent, 0, 50) . '%')
-                ->first();
-
-            if ($previousVote && $previousVote->survey_token_id) {
-                // Ya votó - Reusar el MISMO token
-                $usedToken = \App\Models\SurveyToken::find($previousVote->survey_token_id);
-
-                if ($usedToken) {
-                    return redirect()->route('surveys.show', [
-                        'publicSlug' => $publicSlug,
-                        'token' => $usedToken->token
-                    ]);
-                }
-            }
-        }
 
         // ========================================================================
         // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
-        // Solo si NO viene un token en la URL Y NO ha votado antes
         // ========================================================================
 
         // Intentar asignar un token disponible del pool (con bloqueo para evitar condiciones de carrera)
@@ -154,6 +138,34 @@ class TokenRedirectController extends Controller
             ->firstOrFail();
 
         // ========================================================================
+        // DETECTAR BOTS DE REDES SOCIALES (Facebook, Twitter, etc.)
+        // Estos bots pre-cargan URLs para mostrar previews, no asignar tokens
+        // ========================================================================
+        $userAgent = $request->userAgent();
+        $socialBotPatterns = [
+            'facebookexternalhit',  // Bot de Facebook para previews
+            'Facebot',              // Otro bot de Facebook
+            'Twitterbot',           // Bot de Twitter
+            'LinkedInBot',          // Bot de LinkedIn
+            'WhatsApp',             // Bot de WhatsApp
+            'TelegramBot',          // Bot de Telegram
+            'Slackbot',             // Bot de Slack
+            'Discordbot',           // Bot de Discord
+            'ia_archiver',          // Internet Archive
+            'meta-externalagent',   // Meta (Facebook) external agent
+        ];
+
+        foreach ($socialBotPatterns as $pattern) {
+            if (stripos($userAgent, $pattern) !== false) {
+                // Es un bot de red social haciendo preview - redirigir sin asignar token
+                return redirect()->route('surveys.show.group', [
+                    'groupSlug' => $groupSlug,
+                    'publicSlug' => $publicSlug
+                ]);
+            }
+        }
+
+        // ========================================================================
         // VERIFICAR SI YA VIENE UN TOKEN EN LA URL
         // ========================================================================
         $tokenString = $request->query('token');
@@ -168,45 +180,9 @@ class TokenRedirectController extends Controller
         }
 
         // ========================================================================
-        // VALIDACIÓN DE GRUPO: Si ya votó en el grupo, reusar el mismo token
+        // Sistema de tokens: Siempre asignar un nuevo token disponible
+        // NO verificar si el usuario ya votó (permitir múltiples votos por IP/dispositivo)
         // ========================================================================
-        $fingerprint = $request->cookie('survey_fingerprint');
-
-        if ($group->restrict_voting && $fingerprint) {
-            // Verificar si ya votó en alguna encuesta del grupo
-            $usedToken = $group->getUsedTokenByFingerprint($fingerprint);
-
-            if ($usedToken) {
-                // Redirigir con el MISMO token que ya usó (no dar uno nuevo)
-                return redirect()->route('surveys.show.group', [
-                    'groupSlug' => $groupSlug,
-                    'publicSlug' => $publicSlug,
-                    'token' => $usedToken->token
-                ]);
-            }
-        }
-
-        // ========================================================================
-        // DETECCIÓN AVANZADA: Buscar si este dispositivo ya votó (sin fingerprint)
-        // Comparar por características de hardware (User-Agent, etc.)
-        // ========================================================================
-        $deviceMatcher = new \App\Services\DeviceFingerprintMatcher();
-
-        // Buscar votos previos de este dispositivo en CUALQUIER encuesta del grupo
-        $previousVote = $this->findPreviousVoteInGroup($group->id, $request, $deviceMatcher);
-
-        if ($previousVote && $previousVote->survey_token_id) {
-            // Ya votó antes - Reusar el MISMO token
-            $usedToken = \App\Models\SurveyToken::find($previousVote->survey_token_id);
-
-            if ($usedToken) {
-                return redirect()->route('surveys.show.group', [
-                    'groupSlug' => $groupSlug,
-                    'publicSlug' => $publicSlug,
-                    'token' => $usedToken->token
-                ]);
-            }
-        }
 
         // ========================================================================
         // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
