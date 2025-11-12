@@ -70,6 +70,13 @@ class TokenRedirectController extends Controller
         // ========================================================================
 
         // ========================================================================
+        // DELAY DE 3 SEGUNDOS antes de asignar token
+        // Esto ayuda a evitar que bots rápidos consuman tokens
+        // Los usuarios reales esperarán sin problema
+        // ========================================================================
+        sleep(3);
+
+        // ========================================================================
         // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
         // ========================================================================
 
@@ -183,6 +190,13 @@ class TokenRedirectController extends Controller
         // Sistema de tokens: Siempre asignar un nuevo token disponible
         // NO verificar si el usuario ya votó (permitir múltiples votos por IP/dispositivo)
         // ========================================================================
+
+        // ========================================================================
+        // DELAY DE 3 SEGUNDOS antes de asignar token
+        // Esto ayuda a evitar que bots rápidos consuman tokens
+        // Los usuarios reales esperarán sin problema
+        // ========================================================================
+        sleep(3);
 
         // ========================================================================
         // SISTEMA DE POOL DE TOKENS: Usar tokens pre-generados del pool
