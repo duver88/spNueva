@@ -16,25 +16,40 @@ class TokenRedirectController extends Controller
 
         // ========================================================================
         // DETECTAR BOTS DE REDES SOCIALES (Facebook, Twitter, etc.)
-        // Estos bots pre-cargan URLs para mostrar previews, no asignar tokens
+        // Estos bots pre-cargan URLs para mostrar previews, NO asignar token
+        // IMPORTANTE: Esto evita que Facebook consuma tokens al crear anuncios
         // ========================================================================
         $userAgent = $request->userAgent();
         $socialBotPatterns = [
-            'facebookexternalhit',  // Bot de Facebook para previews
-            'Facebot',              // Otro bot de Facebook
-            'Twitterbot',           // Bot de Twitter
-            'LinkedInBot',          // Bot de LinkedIn
-            'WhatsApp',             // Bot de WhatsApp
-            'TelegramBot',          // Bot de Telegram
-            'Slackbot',             // Bot de Slack
-            'Discordbot',           // Bot de Discord
-            'ia_archiver',          // Internet Archive
-            'meta-externalagent',   // Meta (Facebook) external agent
+            'facebookexternalhit',      // Bot principal de Facebook para previews
+            'FacebookExternalHit',      // Variante con mayúsculas
+            'facebookcatalog',          // Bot de catálogo de Facebook
+            'Facebot',                  // Otro bot de Facebook
+            'meta-externalagent',       // Meta (Facebook) external agent
+            'WhatsApp/',                // Bot de WhatsApp (incluye /)
+            'Twitterbot',               // Bot de Twitter
+            'LinkedInBot',              // Bot de LinkedIn
+            'TelegramBot',              // Bot de Telegram
+            'Slackbot',                 // Bot de Slack
+            'Discordbot',               // Bot de Discord
+            'Google-InspectionTool',    // Google inspection tool
+            'Googlebot',                // Google crawler
+            'ia_archiver',              // Internet Archive
+            'Pinterest',                // Pinterest bot
+            'Instagrambot',             // Instagram bot
         ];
 
         foreach ($socialBotPatterns as $pattern) {
             if (stripos($userAgent, $pattern) !== false) {
-                // Es un bot de red social haciendo preview - redirigir sin asignar token
+                // Es un bot de red social haciendo preview
+                // NO generar token, mostrar landing page neutra
+                \Log::info('Bot detectado en /t/ - No se asignó token', [
+                    'user_agent' => $userAgent,
+                    'pattern' => $pattern,
+                    'ip' => $request->ip()
+                ]);
+
+                // Redirigir a la encuesta SIN token
                 return redirect()->route('surveys.show', [
                     'publicSlug' => $publicSlug
                 ]);
@@ -156,25 +171,40 @@ class TokenRedirectController extends Controller
 
         // ========================================================================
         // DETECTAR BOTS DE REDES SOCIALES (Facebook, Twitter, etc.)
-        // Estos bots pre-cargan URLs para mostrar previews, no asignar tokens
+        // Estos bots pre-cargan URLs para mostrar previews, NO asignar token
+        // IMPORTANTE: Esto evita que Facebook consuma tokens al crear anuncios
         // ========================================================================
         $userAgent = $request->userAgent();
         $socialBotPatterns = [
-            'facebookexternalhit',  // Bot de Facebook para previews
-            'Facebot',              // Otro bot de Facebook
-            'Twitterbot',           // Bot de Twitter
-            'LinkedInBot',          // Bot de LinkedIn
-            'WhatsApp',             // Bot de WhatsApp
-            'TelegramBot',          // Bot de Telegram
-            'Slackbot',             // Bot de Slack
-            'Discordbot',           // Bot de Discord
-            'ia_archiver',          // Internet Archive
-            'meta-externalagent',   // Meta (Facebook) external agent
+            'facebookexternalhit',      // Bot principal de Facebook para previews
+            'FacebookExternalHit',      // Variante con mayúsculas
+            'facebookcatalog',          // Bot de catálogo de Facebook
+            'Facebot',                  // Otro bot de Facebook
+            'meta-externalagent',       // Meta (Facebook) external agent
+            'WhatsApp/',                // Bot de WhatsApp (incluye /)
+            'Twitterbot',               // Bot de Twitter
+            'LinkedInBot',              // Bot de LinkedIn
+            'TelegramBot',              // Bot de Telegram
+            'Slackbot',                 // Bot de Slack
+            'Discordbot',               // Bot de Discord
+            'Google-InspectionTool',    // Google inspection tool
+            'Googlebot',                // Google crawler
+            'ia_archiver',              // Internet Archive
+            'Pinterest',                // Pinterest bot
+            'Instagrambot',             // Instagram bot
         ];
 
         foreach ($socialBotPatterns as $pattern) {
             if (stripos($userAgent, $pattern) !== false) {
-                // Es un bot de red social haciendo preview - redirigir sin asignar token
+                // Es un bot de red social haciendo preview
+                // NO generar token, mostrar landing page neutra
+                \Log::info('Bot detectado en /t/ (grupo) - No se asignó token', [
+                    'user_agent' => $userAgent,
+                    'pattern' => $pattern,
+                    'ip' => $request->ip()
+                ]);
+
+                // Redirigir a la encuesta SIN token
                 return redirect()->route('surveys.show.group', [
                     'groupSlug' => $groupSlug,
                     'publicSlug' => $publicSlug

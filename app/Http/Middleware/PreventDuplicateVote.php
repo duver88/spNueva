@@ -25,17 +25,23 @@ class PreventDuplicateVote
 
         $userAgent = $request->header('User-Agent');
 
-        // Permitir bots de redes sociales (para previews)
+        // Permitir bots de redes sociales (para previews y anuncios)
         $allowedBots = [
-            'facebookexternalhit',
-            'Facebot',
-            'Twitterbot',
-            'LinkedInBot',
-            'WhatsApp',
-            'TelegramBot',
-            'Slackbot',
-            'Discordbot',
-            'meta-externalagent'
+            'facebookexternalhit',      // Bot principal de Facebook
+            'FacebookExternalHit',      // Variante con mayúsculas
+            'facebookcatalog',          // Bot de catálogo de Facebook
+            'Facebot',                  // Otro bot de Facebook
+            'meta-externalagent',       // Meta external agent
+            'WhatsApp',                 // WhatsApp bot
+            'Twitterbot',               // Twitter bot
+            'LinkedInBot',              // LinkedIn bot
+            'TelegramBot',              // Telegram bot
+            'Slackbot',                 // Slack bot
+            'Discordbot',               // Discord bot
+            'Google-InspectionTool',    // Google inspection
+            'Googlebot',                // Google crawler
+            'Pinterest',                // Pinterest bot
+            'Instagrambot',             // Instagram bot
         ];
 
         $isAllowedBot = false;
