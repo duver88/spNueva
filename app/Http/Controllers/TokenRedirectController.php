@@ -66,16 +66,16 @@ class TokenRedirectController extends Controller
 
         // ========================================================================
         // DELAY CON VISTA INTERMEDIA
-        // Mostrar página intermedia que cargará el token después de 3 segundos
+        // Mostrar página intermedia que cargará el token después de 5 segundos
         // Esto evita que Facebook/bots consuman tokens al hacer scraping rápido
         // ========================================================================
 
-        // Mostrar vista intermedia con delay de 3 segundos
+        // Mostrar vista intermedia con delay de 5 segundos
         // Esta vista mostrará la encuesta sin token y luego redirigirá con token
         return view('surveys.token-loading', [
             'survey' => $survey,
             'publicSlug' => $publicSlug,
-            'delay' => 3000 // 3 segundos en milisegundos
+            'delay' => 5000 // 5 segundos en milisegundos
         ]);
     }
 
@@ -198,16 +198,16 @@ class TokenRedirectController extends Controller
 
         // ========================================================================
         // DELAY CON VISTA INTERMEDIA
-        // Mostrar página intermedia que cargará el token después de 3 segundos
+        // Mostrar página intermedia que cargará el token después de 5 segundos
         // Esto evita que Facebook/bots consuman tokens al hacer scraping rápido
         // ========================================================================
 
-        // Mostrar vista intermedia con delay de 3 segundos
+        // Mostrar vista intermedia con delay de 5 segundos
         return view('surveys.token-loading', [
             'survey' => $survey,
             'groupSlug' => $groupSlug,
             'publicSlug' => $publicSlug,
-            'delay' => 3000 // 3 segundos en milisegundos
+            'delay' => 5000 // 5 segundos en milisegundos
         ]);
     }
 
