@@ -65,7 +65,9 @@ class SurveyToken extends Model
 
     public function isValid(): bool
     {
-        return $this->status === 'pending';
+        // Un token es válido si está en pending O en reserved
+        // Tokens reservados aún pueden usarse para votar dentro de su ventana de 5 minutos
+        return in_array($this->status, ['pending', 'reserved']);
     }
 
     public function isUsed(): bool
