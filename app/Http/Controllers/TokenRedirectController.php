@@ -102,6 +102,30 @@ class TokenRedirectController extends Controller
         // Buscar encuesta por public_slug (ofuscado)
         $survey = Survey::where('public_slug', $publicSlug)->firstOrFail();
 
+        // Primero liberar todas las reservas expiradas (tokens que no fueron usados en 5 minutos)
+        SurveyToken::releaseExpiredReservations();
+
+        // Obtener o generar session ID para esta persona
+        $sessionId = $request->session()->getId();
+
+        // Verificar si esta sesión ya tiene un token reservado
+        $existingToken = SurveyToken::where('survey_id', $survey->id)
+            ->where('reserved_by_session', $sessionId)
+            ->where('status', 'reserved')
+            ->first();
+
+        if ($existingToken) {
+            // Ya tiene un token reservado, retornarlo
+            return response()->json([
+                'success' => true,
+                'token' => $existingToken->token,
+                'redirect_url' => route('surveys.show', [
+                    'publicSlug' => $publicSlug,
+                    'token' => $existingToken->token
+                ])
+            ]);
+        }
+
         // Intentar asignar un token disponible del pool (con bloqueo para evitar condiciones de carrera)
         DB::beginTransaction();
 
@@ -121,7 +145,7 @@ class TokenRedirectController extends Controller
                 ], 404);
             }
 
-            // Actualizar información del token
+            // Actualizar información del token y RESERVARLO temporalmente (5 minutos)
             $source = $request->query('source');
             $campaignId = $request->query('campaign_id');
 
@@ -133,11 +157,13 @@ class TokenRedirectController extends Controller
             }
 
             $token->user_agent = $request->userAgent();
-            $token->save();
+
+            // RESERVAR el token por 5 minutos para esta sesión
+            $token->reserve($sessionId);
 
             DB::commit();
 
-            // Retornar el token asignado
+            // Retornar el token asignado (reservado)
             return response()->json([
                 'success' => true,
                 'token' => $token->token,

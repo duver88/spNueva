@@ -17,12 +17,17 @@ class SurveyToken extends Model
         'used_by_fingerprint',
         'user_agent',
         'vote_attempts',
-        'last_attempt_at'
+        'last_attempt_at',
+        'reserved_at',
+        'reserved_by_session',
+        'reservation_expires_at'
     ];
 
     protected $casts = [
         'used_at' => 'datetime',
         'last_attempt_at' => 'datetime',
+        'reserved_at' => 'datetime',
+        'reservation_expires_at' => 'datetime',
         'vote_attempts' => 'integer'
     ];
 
@@ -71,5 +76,63 @@ class SurveyToken extends Model
     public function isExpired(): bool
     {
         return $this->status === 'expired';
+    }
+
+    public function isReserved(): bool
+    {
+        return $this->status === 'reserved';
+    }
+
+    /**
+     * Reservar el token temporalmente (5 minutos)
+     */
+    public function reserve(string $sessionId): void
+    {
+        $this->update([
+            'status' => 'reserved',
+            'reserved_at' => now(),
+            'reserved_by_session' => $sessionId,
+            'reservation_expires_at' => now()->addMinutes(5)
+        ]);
+    }
+
+    /**
+     * Liberar la reserva del token (volver a pending)
+     */
+    public function releaseReservation(): void
+    {
+        $this->update([
+            'status' => 'pending',
+            'reserved_at' => null,
+            'reserved_by_session' => null,
+            'reservation_expires_at' => null
+        ]);
+    }
+
+    /**
+     * Verificar si la reserva ha expirado
+     */
+    public function hasExpiredReservation(): bool
+    {
+        if ($this->status !== 'reserved') {
+            return false;
+        }
+
+        return $this->reservation_expires_at && $this->reservation_expires_at->isPast();
+    }
+
+    /**
+     * Liberar todas las reservas expiradas (método estático)
+     */
+    public static function releaseExpiredReservations(): int
+    {
+        return self::where('status', 'reserved')
+            ->where('reservation_expires_at', '<', now())
+            ->update([
+                'status' => 'pending',
+                'reserved_at' => null,
+                'reserved_by_session' => null,
+                'reservation_expires_at' => null
+            ]);
     }
 }
