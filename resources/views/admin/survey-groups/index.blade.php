@@ -56,6 +56,9 @@
                                         <a href="{{ url('admin/survey-groups/' . $group->id) }}" class="btn btn-outline-primary btn-sm">
                                             <i class="bi bi-eye"></i> Ver
                                         </a>
+                                        <a href="{{ route('survey-groups.report', $group) }}" class="btn btn-primary btn-sm">
+                                            <i class="bi bi-file-text"></i> Reporte
+                                        </a>
                                         <a href="{{ url('admin/survey-groups/' . $group->id . '/edit') }}" class="btn btn-outline-secondary btn-sm">
                                             <i class="bi bi-pencil"></i> Editar
                                         </a>

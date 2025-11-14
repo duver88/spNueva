@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\SurveyController as AdminSurveyController;
 use App\Http\Controllers\Admin\SurveyGroupController;
 use App\Http\Controllers\Admin\TokenController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\TokenRedirectController;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('survey-groups', SurveyGroupController::class);
     Route::post('/survey-groups/{group}/add-survey', [SurveyGroupController::class, 'addSurvey'])->name('survey-groups.add-survey');
     Route::delete('/survey-groups/{group}/surveys/{survey}', [SurveyGroupController::class, 'removeSurvey'])->name('survey-groups.remove-survey');
+
+    // Reportes de encuestas
+    Route::get('/surveys/{survey}/report', [ReportController::class, 'showSurveyReport'])->name('surveys.report');
+    Route::get('/surveys/{survey}/report/export-pdf', [ReportController::class, 'exportSurveyReport'])->name('surveys.report.export-pdf');
+    Route::get('/surveys/{survey}/report/export-csv', [ReportController::class, 'exportSurveyReportCsv'])->name('surveys.report.export-csv');
+
+    // Reportes de grupos
+    Route::get('/survey-groups/{group}/report', [ReportController::class, 'showGroupReport'])->name('survey-groups.report');
+    Route::get('/survey-groups/{group}/report/export-pdf', [ReportController::class, 'exportGroupReport'])->name('survey-groups.report.export-pdf');
+    Route::get('/survey-groups/{group}/report/export-csv', [ReportController::class, 'exportGroupReportCsv'])->name('survey-groups.report.export-csv');
 });
 
 // Rutas públicas de encuestas con grupo (usando group_slug/public_slug)

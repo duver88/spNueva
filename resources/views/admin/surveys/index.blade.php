@@ -71,6 +71,14 @@
                                            title="Resultados">
                                             <i class="bi bi-bar-chart"></i>
                                         </a>
+                                        <a href="{{ route('surveys.report', $survey) }}"
+                                           class="btn btn-sm"
+                                           style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 0.5rem 0.75rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(240, 147, 251, 0.3); transition: all 0.2s;"
+                                           onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(240, 147, 251, 0.4)'"
+                                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(240, 147, 251, 0.3)'"
+                                           title="Reporte">
+                                            <i class="bi bi-file-text"></i>
+                                        </a>
                                         <a href="{{ route('admin.surveys.tokens.index', $survey) }}"
                                            class="btn btn-sm"
                                            style="background: #f1f5f9; color: #64748b; border: none; padding: 0.5rem 0.75rem; border-radius: 8px; transition: all 0.2s;"
