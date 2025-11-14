@@ -12,13 +12,13 @@
             <small class="text-muted">Generado: {{ now()->format('d/m/Y H:i:s') }}</small>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('surveys.report.export-csv', $survey) }}" class="btn btn-outline-success">
+            <a href="{{ route('admin.surveys.report.export-csv', $survey) }}" class="btn btn-outline-success">
                 <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
             </a>
-            <a href="{{ route('surveys.report.export-pdf', $survey) }}" class="btn btn-outline-danger">
+            <a href="{{ route('admin.surveys.report.export-pdf', $survey) }}" class="btn btn-outline-danger">
                 <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
             </a>
-            <a href="{{ route('surveys.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('admin.surveys.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>

@@ -25,7 +25,7 @@
                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.5rem 0.875rem; border-radius: 8px; font-weight: 500;">
                 <i class="bi bi-pencil"></i> <span class="d-none d-md-inline">Editar</span>
             </a>
-            <a href="{{ route('surveys.report', $survey) }}"
+            <a href="{{ route('admin.surveys.report', $survey) }}"
                class="btn btn-sm"
                style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 0.5rem 0.875rem; border-radius: 8px; font-weight: 500;">
                 <i class="bi bi-file-text-fill"></i> <span class="d-none d-md-inline">Reporte</span>

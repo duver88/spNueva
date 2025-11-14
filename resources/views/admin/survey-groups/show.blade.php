@@ -14,7 +14,7 @@
             @endif
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('survey-groups.report', $group) }}" class="btn btn-primary btn-sm">
+            <a href="{{ route('admin.survey-groups.report', $group) }}" class="btn btn-primary btn-sm">
                 <i class="bi bi-file-text-fill"></i> Ver Reporte
             </a>
             <a href="{{ url('admin/survey-groups/' . $group->id . '/edit') }}" class="btn btn-outline-primary btn-sm">

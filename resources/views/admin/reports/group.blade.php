@@ -15,13 +15,13 @@
             @endif
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('survey-groups.report.export-csv', $group) }}" class="btn btn-outline-success">
+            <a href="{{ route('admin.survey-groups.report.export-csv', $group) }}" class="btn btn-outline-success">
                 <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
             </a>
-            <a href="{{ route('survey-groups.report.export-pdf', $group) }}" class="btn btn-outline-danger">
+            <a href="{{ route('admin.survey-groups.report.export-pdf', $group) }}" class="btn btn-outline-danger">
                 <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
             </a>
-            <a href="{{ route('survey-groups.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('admin.survey-groups.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>
@@ -237,7 +237,7 @@
                                         <strong style="color: #1e293b;">{{ $surveyStat['conversion_rate'] }}%</strong>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('surveys.report', $surveyStat['survey_id']) }}"
+                                        <a href="{{ route('admin.surveys.report', $surveyStat['survey_id']) }}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-file-text"></i> Ver Reporte
                                         </a>
