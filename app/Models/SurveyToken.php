@@ -36,6 +36,11 @@ class SurveyToken extends Model
         return $this->belongsTo(Survey::class);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'survey_token_id');
+    }
+
     public static function generateToken(): string
     {
         do {

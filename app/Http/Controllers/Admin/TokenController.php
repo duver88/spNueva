@@ -28,6 +28,17 @@ class TokenController extends Controller
             $query->where('vote_attempts', '>', 1);
         }
 
+        // Filtro por respuesta (opción de pregunta)
+        if ($request->filled('question_option') && $request->question_option !== 'all') {
+            $query->whereHas('votes', function($q) use ($request) {
+                $q->where('question_option_id', $request->question_option)
+                  ->where(function($subQ) {
+                      $subQ->whereNotNull('survey_token_id')
+                           ->orWhere('is_manual', true);
+                  });
+            });
+        }
+
         // Ordenamiento
         $sortBy = $request->get('sort_by', 'created_at');
         $sortDir = $request->get('sort_dir', 'desc');
@@ -50,7 +61,13 @@ class TokenController extends Controller
             ->whereNotNull('source')
             ->pluck('source');
 
-        return view('admin.surveys.tokens.index', compact('survey', 'tokens', 'stats', 'sources'));
+        // Obtener todas las preguntas con sus opciones para el filtro
+        $questions = $survey->questions()
+            ->with('options')
+            ->orderBy('order')
+            ->get();
+
+        return view('admin.surveys.tokens.index', compact('survey', 'tokens', 'stats', 'sources', 'questions'));
     }
 
     public function generate(Request $request, Survey $survey)

@@ -301,6 +301,21 @@
                     </select>
                 </div>
                 <div class="col-md-3">
+                    <label for="question_option" class="form-label fw-semibold">Filtrar por Respuesta</label>
+                    <select name="question_option" id="question_option" class="form-select" onchange="document.getElementById('filterForm').submit()">
+                        <option value="all" {{ request('question_option') == 'all' || !request('question_option') ? 'selected' : '' }}>Todas las respuestas</option>
+                        @foreach($questions as $question)
+                            <optgroup label="{{ $question->question_text }}">
+                                @foreach($question->options as $option)
+                                    <option value="{{ $option->id }}" {{ request('question_option') == $option->id ? 'selected' : '' }}>
+                                        {{ $option->option_text }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
                     <label for="sort_by" class="form-label fw-semibold">Ordenar por</label>
                     <select name="sort_by" id="sort_by" class="form-select" onchange="document.getElementById('filterForm').submit()">
                         <option value="created_at" {{ request('sort_by') == 'created_at' ? 'selected' : '' }}>Fecha creación</option>
