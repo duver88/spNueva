@@ -111,6 +111,25 @@ class ReportController extends Controller
                     ]);
                 }
             }
+            fputcsv($file, []);
+
+            // Tokens duplicados
+            if ($report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates'] > 0) {
+                fputcsv($file, ['TOKENS CON INTENTOS DUPLICADOS']);
+                fputcsv($file, ['Total tokens con duplicados', $report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates']]);
+                fputcsv($file, ['Total intentos duplicados', $report['fraud_stats']['duplicate_token_stats']['total_duplicate_attempts']]);
+                fputcsv($file, []);
+
+                fputcsv($file, ['Token', 'Intentos', 'Estado', 'Último Intento']);
+                foreach ($report['fraud_stats']['duplicate_token_stats']['top_duplicate_tokens'] as $tokenData) {
+                    fputcsv($file, [
+                        $tokenData['token'],
+                        $tokenData['attempts'],
+                        $tokenData['status'],
+                        $tokenData['last_attempt_at'] ?? 'N/A'
+                    ]);
+                }
+            }
 
             fclose($file);
         };
@@ -218,6 +237,26 @@ class ReportController extends Controller
                         $option['option_text'],
                         $option['votes'],
                         $option['percentage'] . '%'
+                    ]);
+                }
+            }
+            fputcsv($file, []);
+
+            // Tokens duplicados del grupo
+            if ($report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates'] > 0) {
+                fputcsv($file, ['TOKENS CON INTENTOS DUPLICADOS (TODO EL GRUPO)']);
+                fputcsv($file, ['Total tokens con duplicados', $report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates']]);
+                fputcsv($file, ['Total intentos duplicados', $report['fraud_stats']['duplicate_token_stats']['total_duplicate_attempts']]);
+                fputcsv($file, []);
+
+                fputcsv($file, ['Token', 'Intentos', 'Estado', 'ID Encuesta', 'Último Intento']);
+                foreach ($report['fraud_stats']['duplicate_token_stats']['top_duplicate_tokens'] as $tokenData) {
+                    fputcsv($file, [
+                        $tokenData['token'],
+                        $tokenData['attempts'],
+                        $tokenData['status'],
+                        $tokenData['survey_id'],
+                        $tokenData['last_attempt_at'] ?? 'N/A'
                     ]);
                 }
             }

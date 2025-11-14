@@ -159,11 +159,58 @@ class SurveyReportGenerator
             }
         }
 
+        // Votos duplicados por token (tokens con múltiples intentos)
+        $duplicateTokenStats = $this->generateDuplicateTokenStats($survey);
+
         return [
             'average_fraud_score' => $avgFraudScore,
             'high_risk_count' => $highRiskCount,
             'high_risk_percentage' => $highRiskPercentage,
             'fraud_reasons_distribution' => $fraudReasonsDistribution,
+            'duplicate_token_stats' => $duplicateTokenStats,
+        ];
+    }
+
+    /**
+     * Estadísticas de votos duplicados por token
+     */
+    public function generateDuplicateTokenStats(Survey $survey): array
+    {
+        // Tokens con múltiples intentos de voto (vote_attempts > 1)
+        $tokensWithMultipleAttempts = $survey->tokens()
+            ->where('vote_attempts', '>', 1)
+            ->orderBy('vote_attempts', 'desc')
+            ->get();
+
+        $totalDuplicateAttempts = $tokensWithMultipleAttempts->sum('vote_attempts');
+        $tokensCount = $tokensWithMultipleAttempts->count();
+
+        // Agrupar por cantidad de intentos
+        $attemptsByCount = [];
+        foreach ($tokensWithMultipleAttempts as $token) {
+            $attempts = $token->vote_attempts;
+            if (!isset($attemptsByCount[$attempts])) {
+                $attemptsByCount[$attempts] = 0;
+            }
+            $attemptsByCount[$attempts]++;
+        }
+
+        // Ordenar de mayor a menor
+        krsort($attemptsByCount);
+
+        return [
+            'total_tokens_with_duplicates' => $tokensCount,
+            'total_duplicate_attempts' => $totalDuplicateAttempts,
+            'attempts_by_count' => $attemptsByCount,
+            'top_duplicate_tokens' => $tokensWithMultipleAttempts->take(10)->map(function($token) {
+                return [
+                    'token' => substr($token->token, 0, 8) . '...',
+                    'full_token' => $token->token,
+                    'attempts' => $token->vote_attempts,
+                    'status' => $token->status,
+                    'last_attempt_at' => $token->last_attempt_at?->format('Y-m-d H:i:s'),
+                ];
+            })->toArray(),
         ];
     }
 

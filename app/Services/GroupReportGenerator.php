@@ -226,11 +226,67 @@ class GroupReportGenerator
             }
         }
 
+        // Votos duplicados por token (agregado del grupo)
+        $duplicateTokenStats = $this->generateDuplicateTokenStats($group);
+
         return [
             'average_fraud_score' => $avgFraudScore,
             'high_risk_count' => $highRiskCount,
             'high_risk_percentage' => $highRiskPercentage,
             'fraud_reasons_distribution' => $fraudReasonsDistribution,
+            'duplicate_token_stats' => $duplicateTokenStats,
+        ];
+    }
+
+    /**
+     * Estadísticas de votos duplicados por token (agregado del grupo)
+     */
+    public function generateDuplicateTokenStats(SurveyGroup $group): array
+    {
+        $surveys = $group->surveys;
+
+        // Obtener todos los tokens con múltiples intentos de todas las encuestas del grupo
+        $tokensWithMultipleAttempts = collect();
+        foreach ($surveys as $survey) {
+            $tokens = $survey->tokens()
+                ->where('vote_attempts', '>', 1)
+                ->get();
+            $tokensWithMultipleAttempts = $tokensWithMultipleAttempts->merge($tokens);
+        }
+
+        // Ordenar por intentos descendente
+        $tokensWithMultipleAttempts = $tokensWithMultipleAttempts->sortByDesc('vote_attempts');
+
+        $totalDuplicateAttempts = $tokensWithMultipleAttempts->sum('vote_attempts');
+        $tokensCount = $tokensWithMultipleAttempts->count();
+
+        // Agrupar por cantidad de intentos
+        $attemptsByCount = [];
+        foreach ($tokensWithMultipleAttempts as $token) {
+            $attempts = $token->vote_attempts;
+            if (!isset($attemptsByCount[$attempts])) {
+                $attemptsByCount[$attempts] = 0;
+            }
+            $attemptsByCount[$attempts]++;
+        }
+
+        // Ordenar de mayor a menor
+        krsort($attemptsByCount);
+
+        return [
+            'total_tokens_with_duplicates' => $tokensCount,
+            'total_duplicate_attempts' => $totalDuplicateAttempts,
+            'attempts_by_count' => $attemptsByCount,
+            'top_duplicate_tokens' => $tokensWithMultipleAttempts->take(10)->map(function($token) {
+                return [
+                    'token' => substr($token->token, 0, 8) . '...',
+                    'full_token' => $token->token,
+                    'attempts' => $token->vote_attempts,
+                    'status' => $token->status,
+                    'survey_id' => $token->survey_id,
+                    'last_attempt_at' => $token->last_attempt_at?->format('Y-m-d H:i:s'),
+                ];
+            })->toArray(),
         ];
     }
 

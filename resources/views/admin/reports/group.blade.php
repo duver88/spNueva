@@ -375,6 +375,85 @@
             </div>
         </div>
         @endif
+
+        <!-- Tokens con Intentos Duplicados del Grupo -->
+        @if($report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates'] > 0)
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="h6 fw-bold mb-3" style="color: #1e293b;">
+                        <i class="bi bi-arrow-repeat text-danger"></i> Tokens con Intentos Duplicados (Todas las Encuestas)
+                    </h5>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="alert alert-warning mb-0">
+                                <strong>{{ number_format($report['fraud_stats']['duplicate_token_stats']['total_tokens_with_duplicates']) }}</strong> tokens
+                                con múltiples intentos de voto
+                                <br>
+                                <strong>{{ number_format($report['fraud_stats']['duplicate_token_stats']['total_duplicate_attempts']) }}</strong> intentos
+                                totales registrados en todo el grupo
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="small fw-bold mb-2">Distribución por Intentos:</h6>
+                            @foreach($report['fraud_stats']['duplicate_token_stats']['attempts_by_count'] as $attempts => $count)
+                                <span class="badge bg-secondary me-1">{{ $attempts }} intentos: {{ $count }} tokens</span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @if(!empty($report['fraud_stats']['duplicate_token_stats']['top_duplicate_tokens']))
+                    <h6 class="small fw-bold mb-2">Top 10 Tokens con Más Intentos:</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="color: #1e293b;">Token</th>
+                                    <th class="text-center" style="color: #1e293b;">Intentos</th>
+                                    <th class="text-center" style="color: #1e293b;">Estado</th>
+                                    <th class="text-center" style="color: #1e293b;">Encuesta</th>
+                                    <th style="color: #1e293b;">Último Intento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($report['fraud_stats']['duplicate_token_stats']['top_duplicate_tokens'] as $tokenData)
+                                <tr>
+                                    <td>
+                                        <code class="text-muted small" title="{{ $tokenData['full_token'] }}">
+                                            {{ $tokenData['token'] }}
+                                        </code>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-danger">{{ $tokenData['attempts'] }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        @if($tokenData['status'] === 'used')
+                                            <span class="badge bg-success">Usado</span>
+                                        @elseif($tokenData['status'] === 'pending')
+                                            <span class="badge bg-secondary">Pendiente</span>
+                                        @elseif($tokenData['status'] === 'reserved')
+                                            <span class="badge bg-warning">Reservado</span>
+                                        @else
+                                            <span class="badge bg-dark">{{ $tokenData['status'] }}</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <small class="text-muted">#{{ $tokenData['survey_id'] }}</small>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ $tokenData['last_attempt_at'] ?? 'N/A' }}</small>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 
     <!-- Estadísticas de Tokens Agregadas -->
