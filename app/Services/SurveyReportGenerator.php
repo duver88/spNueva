@@ -130,6 +130,12 @@ class SurveyReportGenerator
                 'high_risk_count' => 0,
                 'high_risk_percentage' => 0,
                 'fraud_reasons_distribution' => [],
+                'duplicate_token_stats' => [
+                    'total_tokens_with_duplicates' => 0,
+                    'total_duplicate_attempts' => 0,
+                    'attempts_by_count' => [],
+                    'top_duplicate_tokens' => [],
+                ],
             ];
         }
 
